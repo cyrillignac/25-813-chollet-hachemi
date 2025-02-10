@@ -72,7 +72,7 @@ Configuration :
 
 ## Question 5
 Sur A : 
-Ping R1 : ping 10.100.3.152 \n
+Ping R1 : ping 10.100.3.152,
 -> Ping ok 
 ```
 PING 10.100.3.252 (10.100.3.252) 56(84) octets de données.
