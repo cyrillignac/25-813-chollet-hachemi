@@ -10,7 +10,7 @@ Nous avons 15 routes pertinentes.
 - x1 : Vlan 176
 - x1 : Route par défaut 
 
-_Table de routage partielle pour R1 (15 routes pertinentes) :_
+__Table de routage partielle pour R1 (15 routes pertinentes) :__
 | Réseau Destination  | Next-hop               | Coût | Explication                         |
 |---------------------|:---------------------:|------|:-----------------------------------:|
 | 10.100.4.0/24      | Directement Connecté   | x    | Route vers réseau interne étudiant |
@@ -23,7 +23,7 @@ _Table de routage partielle pour R1 (15 routes pertinentes) :_
 
 
 
-_Table de routage partielle pour R2 (15 routes pertinentes) :_
+__Table de routage partielle pour R2 (15 routes pertinentes) :__
 | Réseau Destination | Next-hop              | Coût | Explication                         |
 |--------------------|:--------------------:|------|:-----------------------------------:|
 | 10.100.4.0/24     | Directement Connecté  | x    | Route vers réseau interne étudiant |
@@ -72,8 +72,8 @@ Configuration :
 
 
 ## Question 5.
-Sur A : \n
-Ping R1 : ping 10.100.3.252 \n
+Sur A :
+Ping R1 : ping 10.100.3.252 
 -> Ping ok 
 ```bash
 [etudiant@G3-813-A ~]$ ping 10.100.3.252
