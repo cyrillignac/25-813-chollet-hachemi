@@ -1,4 +1,4 @@
- ### Question 1.
+ ## Question 1.
  
 En supposant que chaque sous-réseau est accessible via un routeur différent, chaque routeur aura une entrée pour chaque sous-réseau, y compris les routes par défaut et les routes vers les réseaux directement connectés.
 Table de routage partielle pour R1 (15 routes pertinentes) :
@@ -35,11 +35,11 @@ Réseau Destination | Next-hop | Coût | Explication
 ```
 Ces tables de routage partielle incluent les routes directement connectées, les routes vers les autres sous-réseaux, et les routes par défaut.
 
-### Question 2.
+## Question 2.
 
 Le protocole VRRP (Virtual Router Redundancy Protocol) permet de créer un routeur virtuel en regroupant plusieurs routeurs physiques, assurant une redondance et une haute disponibilité. Il attribue une adresse IP virtuelle partagée par les routeurs, qui sert de passerelle par défaut pour les hôtes du réseau. En cas de défaillance d'un routeur, un autre routeur du groupe prend automatiquement le relais, garantissant une continuité de service sans interruption. Cela améliore la fiabilité du réseau en évitant les points de défaillance uniques.
 
-### Question 3.
+## Question 3.
 
 Le protocole VRRP (Virtual Router Redundancy Protocol) fonctionne en créant un groupe de routeurs qui partagent une adresse IP virtuelle. Cette adresse IP virtuelle est utilisée comme passerelle par défaut par les machines du réseau. Voici comment cela fonctionne en détail :
 
@@ -53,14 +53,14 @@ Le protocole VRRP (Virtual Router Redundancy Protocol) fonctionne en créant un 
 
 En cas de défaillance du routeur maître, un routeur de backup ayant la priorité la plus élevée prend le relais sur l'ancien maître, devenant le nouveau routeur maître du VRRP. Les utilisateurs, quant à eux, utilisent toujours la même adresse pour contacter le routeur. 
 
-### Question 4.
+## Question 4.
 
 Dans notre situation, OSPF permettrait aux routeurs R1 et R2 d'échanger des informations sur les réseaux disponibles (comme 10.X.Y.0/24, 10.250.0.0/24, et 192.168.176.0/24) et de calculer les routes les plus efficaces en fonction de la topologie du réseau.
 
 L'utilisation du routage statique ne serait pas pertinente ici car elle nécessiterait une configuration manuelle des routes sur chaque routeur. Cela deviendrait rapidement complexe et peu flexible, surtout avec plusieurs VLANs (comme le Vlan 60(W), le Vlan 633, ou le Vlan 176) et des changements fréquents dans la topologie du réseau. OSPF, en revanche, s'adapte automatiquement aux changements, assurant une meilleure gestion des routes et une réduction des erreurs de configuration.
 
 
-## CONFIGURATION ROUTEURS & MACHINE
+# CONFIGURATION ROUTEURS & MACHINE
 
 ### Routeur R1 :
 Identifiants : admin@172.29.253.21:password 
