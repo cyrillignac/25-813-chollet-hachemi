@@ -1,11 +1,19 @@
  ### Question 1.
  
 En supposant que chaque sous-réseau est accessible via un routeur différent, chaque routeur aura une entrée pour chaque sous-réseau, y compris les routes par défaut et les routes vers les réseaux directement connectés.
-Table de routage partielle pour R1 (7 routes pertinentes) :
+Table de routage partielle pour R1 (15 routes pertinentes) :
+x9 : sous-réseau des autres étudiants
+x1 : sous-réseau de notre groupe 
+x1 : sous-réseau du professeur
+x1 : sous-réseau Vlan 633
+x1 : Vlan 140
+x1 : Vlan 176
+x1 : Route par défaut 
+
 ```
-10.100.3.0/24, Directement Connecté : Interface Interne ;
-10.250.0.0/24, Directement Connecté : Interface Externe ;
-10.100.2.0/24, Directement Connecté : Interface Externe ;
+10.100.1.0/24, Directement Connecté : Interface Interne ;
+10.100.2.0/24, Directement Connecté : Interface Interne ;
+10.100.3.0/24, Directement Connecté : Interface Externe ;
 10.100.4.0/24, Directement Connecté : Interface Externe ;
 10.100.5.0/24, Directement Connecté : Interface Externe ;
 10.100.6.0/24, Directement Connecté : Interface Externe ;
@@ -14,6 +22,7 @@ Table de routage partielle pour R1 (7 routes pertinentes) :
 10.200.1.0/24, Directement Connecté : Interface Externe ;
 10.200.2.0/24, Directement Connecté : Interface Externe ;
 10.200.9.0/24, Directement Connecté : Interface Externe ;
+10.250.0.0/24, Directement Connecté : Interface Externe ;
 192.168.140.0/23, Via 10.250.0.253 ;
 192.168.176.0/24, Via 10.250.0.254 ;
 0.0.0.0/0 : Route par défaut, Via 10.250.0.253/254 selon métrique ;
