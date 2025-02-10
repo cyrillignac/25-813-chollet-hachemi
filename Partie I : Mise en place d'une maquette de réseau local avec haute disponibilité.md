@@ -10,7 +10,7 @@ Nous avons 15 routes pertinentes.
 - x1 : Vlan 176
 - x1 : Route par défaut 
 
-__Table de routage partielle pour R1 (15 routes pertinentes) :__
+**__➡️Table de routage partielle pour R1 (15 routes pertinentes)⬅️__**
 | Réseau Destination  | Next-hop               | Coût | Explication                         |
 |---------------------|:---------------------:|------|:-----------------------------------:|
 | 10.100.4.0/24      | Directement Connecté   | x    | Route vers réseau interne étudiant |
@@ -23,7 +23,7 @@ __Table de routage partielle pour R1 (15 routes pertinentes) :__
 
 
 
-__Table de routage partielle pour R2 (15 routes pertinentes) :__
+**__➡️Table de routage partielle pour R2 (15 routes pertinentes)⬅️__**
 | Réseau Destination | Next-hop              | Coût | Explication                         |
 |--------------------|:--------------------:|------|:-----------------------------------:|
 | 10.100.4.0/24     | Directement Connecté  | x    | Route vers réseau interne étudiant |
@@ -87,7 +87,7 @@ PING 10.100.3.252 (10.100.3.252) 56(84) octets de données.
 SUR R1 :
 'sh ip route' --> Resultat attendu : affichage de routes partagées via OSPF ;
 ```bash
-do sh ip route
+G3-R1(config)# do sh ip route
 Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
        D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
        N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
@@ -128,7 +128,7 @@ Nos tests visent à démontrer que la transmission du rôle de Master entre les 
 
 Scénario prévu : R1 est Master, et tombe. R2 Prend le relais et devient master.
 Résultats :
-```cisco
+```bash
 G3-R1(config)#do sh vrrp
 GigabitEthernet2 - Group 1
   State is Master
