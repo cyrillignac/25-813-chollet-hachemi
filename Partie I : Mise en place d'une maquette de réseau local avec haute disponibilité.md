@@ -1,3 +1,5 @@
+![Schema reseau](https://media.discordapp.net/attachments/1337862960927735889/1338624271752106054/image.png?ex=67abc280&is=67aa7100&hm=ce3e3c9bbf8a914e8f08b528e65427e910013e0fe4fcb690e461e87c991ee854&=&format=webp&quality=lossless&width=1025&height=323)
+
  ## Question 1.
  
 En supposant que chaque sous-réseau est accessible via un routeur différent, chaque routeur aura une entrée pour chaque sous-réseau, y compris les routes par défaut et les routes vers les réseaux directement connectés.
