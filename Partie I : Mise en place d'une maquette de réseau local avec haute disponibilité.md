@@ -10,7 +10,7 @@ Nous avons 15 routes pertinentes.
 - x1 : Vlan 176
 - x1 : Route par défaut 
 
-<u>Table de routage partielle pour R1 (15 routes pertinentes) :</u>
+_Table de routage partielle pour R1 (15 routes pertinentes) :_
 | Réseau Destination  | Next-hop               | Coût | Explication                         |
 |---------------------|:---------------------:|------|:-----------------------------------:|
 | 10.100.4.0/24      | Directement Connecté   | x    | Route vers réseau interne étudiant |
@@ -23,7 +23,7 @@ Nous avons 15 routes pertinentes.
 
 
 
-<u>Table de routage partielle pour R2 (15 routes pertinentes) :</u>
+_Table de routage partielle pour R2 (15 routes pertinentes) :_
 | Réseau Destination | Next-hop              | Coût | Explication                         |
 |--------------------|:--------------------:|------|:-----------------------------------:|
 | 10.100.4.0/24     | Directement Connecté  | x    | Route vers réseau interne étudiant |
@@ -72,8 +72,8 @@ Configuration :
 
 
 ## Question 5.
-Sur A : 
-Ping R1 : ping 10.100.3.252
+Sur A : \n
+Ping R1 : ping 10.100.3.252 \n
 -> Ping ok 
 ```bash
 [etudiant@G3-813-A ~]$ ping 10.100.3.252
@@ -86,7 +86,7 @@ PING 10.100.3.252 (10.100.3.252) 56(84) octets de données.
 ### Tests OSPF
 SUR R1 :
 'sh ip route' --> Resultat attendu : affichage de routes partagées via OSPF ;
-```cisco
+```bash
 do sh ip route
 Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
        D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
