@@ -119,6 +119,8 @@ O     192.168.176.0/24 [110/101] via 10.250.0.254, 00:00:55, GigabitEthernet3
 ```
 On voit des routes ayant pour "code" O, ce qui signifie qu'OSPF est bien lancé. On detecte ainsi les déclaration OSPF des autres groupes (exemple : 10.100.2.0/24, ligne 19 du résultat de commande).
 
+
+
 ```
 G3-R1(config)#do sh vrrp
 GigabitEthernet2 - Group 1
