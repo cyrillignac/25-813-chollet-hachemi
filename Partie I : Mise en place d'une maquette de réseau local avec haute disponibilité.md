@@ -119,3 +119,48 @@ O     192.168.176.0/24 [110/101] via 10.250.0.254, 00:00:55, GigabitEthernet3
 ```
 On voit des routes ayant pour "code" O, ce qui signifie qu'OSPF est bien lancé. On detecte ainsi les déclaration OSPF des autres groupes (exemple : 10.100.2.0/24, ligne 19 du résultat de commande).
 
+```
+G3-R1(config)#do sh vrrp
+GigabitEthernet2 - Group 1
+  State is Master
+  Virtual IP address is 10.100.3.254
+  Virtual MAC address is 0000.5e00.0101
+  Advertisement interval is 1.000 sec
+  Preemption enabled
+  Priority is 110
+  Master Router is 10.100.3.252 (local), priority is 110
+  Master Advertisement interval is 1.000 sec
+  Master Down interval is 3.570 sec
+  FLAGS: 1/1
+###########################################################
+813-R2#show vrrp
+GigabitEthernet2 - Group 1
+  State is Backup
+  Virtual IP address is 10.100.3.254
+  Virtual MAC address is 0000.5e00.0101
+  Advertisement interval is 1.000 sec
+  Preemption enabled
+  Priority is 100
+  Master Router is 10.100.3.252, priority is 110
+  Master Advertisement interval is 1.000 sec
+  Master Down interval is 3.609 sec (expires in 2.891 sec)
+  FLAGS: 0/1
+###########################################################
+G3-R1(config)#no vrrp 1
+G3-R1(config-if)#do sh vrrp
+G3-R1(config-if)#
+###########################################################
+813-R2#show vrrp
+GigabitEthernet2 - Group 1
+  State is Master
+  Virtual IP address is 10.100.3.254
+  Virtual MAC address is 0000.5e00.0101
+  Advertisement interval is 1.000 sec
+  Preemption enabled
+  Priority is 100
+  Master Router is 10.100.3.251 (local), priority is 100
+  Master Advertisement interval is 1.000 sec
+  Master Down interval is 3.609 sec
+  FLAGS: 1/1
+###########################################################
+```
