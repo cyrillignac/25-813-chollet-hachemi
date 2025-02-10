@@ -52,3 +52,9 @@ Le protocole VRRP (Virtual Router Redundancy Protocol) fonctionne en créant un 
     Prise de Relais : Lorsqu'une défaillance est détectée, le routeur backup avec la priorité la plus élevée devient le nouveau routeur maître. Il commence à répondre aux paquets destinés à l'adresse IP virtuelle, assurant ainsi la continuité du service.
 
 En cas de défaillance du routeur maître, un routeur de backup ayant la priorité la plus élevée prend le relais sur l'ancien maître, devenant le nouveau routeur maître du VRRP. Les utilisateurs, quant à eux, utilisent toujours la même adresse pour contacter le routeur. 
+
+### Question 4.
+
+Dans notre situation, OSPF permettrait aux routeurs R1 et R2 d'échanger des informations sur les réseaux disponibles (comme 10.X.Y.0/24, 10.250.0.0/24, et 192.168.176.0/24) et de calculer les routes les plus efficaces en fonction de la topologie du réseau.
+
+L'utilisation du routage statique ne serait pas pertinente ici car elle nécessiterait une configuration manuelle des routes sur chaque routeur. Cela deviendrait rapidement complexe et peu flexible, surtout avec plusieurs VLANs (comme le Vlan 60(W), le Vlan 633, ou le Vlan 176) et des changements fréquents dans la topologie du réseau. OSPF, en revanche, s'adapte automatiquement aux changements, assurant une meilleure gestion des routes et une réduction des erreurs de configuration.
