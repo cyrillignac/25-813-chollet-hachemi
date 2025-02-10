@@ -10,9 +10,9 @@ Table de routage partielle pour R1 (15 routes pertinentes) :
 - x1 : Vlan 176
 - x1 : Route par défaut 
 
-```
+
 | Réseau Destination  | Next-hop               | Coût | Explication                         |
-|---------------------|-----------------------|------|-------------------------------------|
+|---------------------|:---------------------:|------|:-----------------------------------:|
 | 10.100.4.0/24      | Directement Connecté   | x    | Route vers réseau interne étudiant |
 | 10.100.3.0/24      | Directement Connecté   | x    | Route vers le réseau de notre groupe |
 | 10.200.9.0/24      | Directement Connecté   | x    | Route vers le réseau du prof       |
@@ -21,7 +21,7 @@ Table de routage partielle pour R1 (15 routes pertinentes) :
 | 192.168.176.0/24   | 10.250.0.254           | x    | Route vers le Vlan 176             |
 | 0.0.0.0/0          | 10.250.0.253           | x    | Route par défaut                   |
 
-```
+
 
 Table de routage partielle pour R2 (15 routes pertinentes) :
 ```
