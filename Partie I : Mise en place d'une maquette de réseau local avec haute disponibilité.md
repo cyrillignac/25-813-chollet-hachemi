@@ -171,3 +171,7 @@ GigabitEthernet2 - Group 1
   FLAGS: 1/1
 ###########################################################
 ```
+
+Test 2 : ping sur l'adresse virtuelle du VRRP depuis les machines clientes (A et B)
+
+comportement prévu : ping réussi.
