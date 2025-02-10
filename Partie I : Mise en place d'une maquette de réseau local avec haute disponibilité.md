@@ -58,3 +58,13 @@ En cas de défaillance du routeur maître, un routeur de backup ayant la priorit
 Dans notre situation, OSPF permettrait aux routeurs R1 et R2 d'échanger des informations sur les réseaux disponibles (comme 10.X.Y.0/24, 10.250.0.0/24, et 192.168.176.0/24) et de calculer les routes les plus efficaces en fonction de la topologie du réseau.
 
 L'utilisation du routage statique ne serait pas pertinente ici car elle nécessiterait une configuration manuelle des routes sur chaque routeur. Cela deviendrait rapidement complexe et peu flexible, surtout avec plusieurs VLANs (comme le Vlan 60(W), le Vlan 633, ou le Vlan 176) et des changements fréquents dans la topologie du réseau. OSPF, en revanche, s'adapte automatiquement aux changements, assurant une meilleure gestion des routes et une réduction des erreurs de configuration.
+
+
+## CONFIGURATION ROUTEURS & MACHINE
+
+### Routeur R1 :
+Identifiants : admin@172.29.253.21:password 
+
+Configuration : 
+ - Déclaration LO ospf ;
+ - Déclaration réseaux DC ;
