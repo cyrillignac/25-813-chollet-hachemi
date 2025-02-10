@@ -74,7 +74,8 @@ Configuration :
 Sur A : 
 Ping R1 : ping 10.100.3.252
 -> Ping ok 
-```
+```bash
+[etudiant@G3-813-A ~]$ ping 10.100.3.252
 PING 10.100.3.252 (10.100.3.252) 56(84) octets de données.
 64 octets de 10.100.3.252 : icmp_seq=2 ttl=255 temps=0.676 ms
 ```
@@ -84,7 +85,7 @@ PING 10.100.3.252 (10.100.3.252) 56(84) octets de données.
 ### Tests OSPF
 SUR R1 :
 'sh ip route' --> Resultat attendu : affichage de routes partagées via OSPF ;
-```
+```cisco
 do sh ip route
 Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
        D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
@@ -126,7 +127,7 @@ Nos tests visent à démontrer que la transmission du rôle de Master entre les 
 
 Scénario prévu : R1 est Master, et tombe. R2 Prend le relais et devient master.
 Résultats :
-```
+```cisco
 G3-R1(config)#do sh vrrp
 GigabitEthernet2 - Group 1
   State is Master
