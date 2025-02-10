@@ -72,7 +72,10 @@ Configuration :
 
 ## Question 5
 Sur A : 
-Ping R1 : ping 10.100.3.152 
+Ping R1 : ping 10.100.3.152 \n
 -> Ping ok 
-
+```
+PING 10.100.3.252 (10.100.3.252) 56(84) octets de données.
+64 octets de 10.100.3.252 : icmp_seq=2 ttl=255 temps=0.676 ms
+```
 
