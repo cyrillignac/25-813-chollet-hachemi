@@ -7,6 +7,13 @@ Table de routage partielle pour R1 (7 routes pertinentes) :
 10.250.0.0/24, Directement Connecté : Interface Externe ;
 10.100.2.0/24, Directement Connecté : Interface Externe ;
 10.100.4.0/24, Directement Connecté : Interface Externe ;
+10.100.5.0/24, Directement Connecté : Interface Externe ;
+10.100.6.0/24, Directement Connecté : Interface Externe ;
+10.100.7.0/24, Directement Connecté : Interface Externe ;
+10.100.8.0/24, Directement Connecté : Interface Externe ;
+10.200.1.0/24, Directement Connecté : Interface Externe ;
+10.200.2.0/24, Directement Connecté : Interface Externe ;
+10.200.9.0/24, Directement Connecté : Interface Externe ;
 192.168.140.0/23, Via 10.250.0.253 ;
 192.168.176.0/24, Via 10.250.0.254 ;
 0.0.0.0/0 : Route par défaut, Via 10.250.0.253/254 selon métrique ;
