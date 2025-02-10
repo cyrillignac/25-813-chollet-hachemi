@@ -1,7 +1,7 @@
  ## Question 1.
  
 En supposant que chaque sous-réseau est accessible via un routeur différent, chaque routeur aura une entrée pour chaque sous-réseau, y compris les routes par défaut et les routes vers les réseaux directement connectés.
-Table de routage partielle pour R1 (15 routes pertinentes) :
+Nous avons 15 routes pertinentes.
 - x9 : sous-réseau des autres étudiants
 - x1 : sous-réseau de notre groupe (n°3)
 - x1 : sous-réseau du professeur
@@ -10,7 +10,7 @@ Table de routage partielle pour R1 (15 routes pertinentes) :
 - x1 : Vlan 176
 - x1 : Route par défaut 
 
-
+<u>Table de routage partielle pour R1 (15 routes pertinentes) :</u>
 | Réseau Destination  | Next-hop               | Coût | Explication                         |
 |---------------------|:---------------------:|------|:-----------------------------------:|
 | 10.100.4.0/24      | Directement Connecté   | x    | Route vers réseau interne étudiant |
@@ -23,7 +23,7 @@ Table de routage partielle pour R1 (15 routes pertinentes) :
 
 
 
-Table de routage partielle pour R2 (15 routes pertinentes) :
+<u>Table de routage partielle pour R2 (15 routes pertinentes) :</u>
 | Réseau Destination | Next-hop              | Coût | Explication                         |
 |--------------------|:--------------------:|------|:-----------------------------------:|
 | 10.100.4.0/24     | Directement Connecté  | x    | Route vers réseau interne étudiant |
