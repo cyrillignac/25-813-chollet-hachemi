@@ -68,3 +68,11 @@ Identifiants : admin@172.29.253.21:password
 Configuration : 
  - Déclaration LO ospf ;
  - Déclaration réseaux DC ;
+
+
+## Question 5
+Sur A : 
+Ping R1 : ping 10.100.3.152 
+-> Ping ok 
+
+
