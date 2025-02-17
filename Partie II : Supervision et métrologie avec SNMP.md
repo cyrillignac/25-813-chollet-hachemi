@@ -121,14 +121,14 @@ La commande _snmpwalk -v2c -c 123test123 10.100.3.254 vrrpMIB_ échoue car  l'ob
 ## Question 13 : 
 ```
 [root@G3-813-B etudiant]# snmpwalk -v2c -c 123test123 10.100.3.251 1.3.6.1.2.1.68.1.3
-SNMPv2-SMI::mib-2.68.1.3.1.2.2.1 = Hex-STRING: 00 00 5E 00 01 01
-SNMPv2-SMI::mib-2.68.1.3.1.3.2.1 = INTEGER: 3
-SNMPv2-SMI::mib-2.68.1.3.1.4.2.1 = INTEGER: 1
-SNMPv2-SMI::mib-2.68.1.3.1.5.2.1 = INTEGER: 100
-SNMPv2-SMI::mib-2.68.1.3.1.6.2.1 = INTEGER: 1
-SNMPv2-SMI::mib-2.68.1.3.1.7.2.1 = IpAddress: 10.100.3.251
-SNMPv2-SMI::mib-2.68.1.3.1.8.2.1 = IpAddress: 10.100.3.254
-SNMPv2-SMI::mib-2.68.1.3.1.9.2.1 = INTEGER: 1
+SNMPv2-SMI::mib-2.68.1.3.1.2.2.1 = Hex-STRING: 00 00 5E 00 01 01   ---> @Mac virtuelle de la table vvrpOperTable
+SNMPv2-SMI::mib-2.68.1.3.1.3.2.1 = INTEGER: 3     ---> l'état actuelle du routeur : 3 = Master 
+SNMPv2-SMI::mib-2.68.1.3.1.4.2.1 = INTEGER: 1     ---> l'état administratif : 1 = up 
+SNMPv2-SMI::mib-2.68.1.3.1.5.2.1 = INTEGER: 100   ---> la priorité dans le processus d'éléction du maître ici 100
+SNMPv2-SMI::mib-2.68.1.3.1.6.2.1 = INTEGER: 1     ---> le nombre d'@ip associé au routeur ici 1 
+SNMPv2-SMI::mib-2.68.1.3.1.7.2.1 = IpAddress: 10.100.3.251  ---> l'@ip du maître actuel du routeur 
+SNMPv2-SMI::mib-2.68.1.3.1.8.2.1 = IpAddress: 10.100.3.254  ---> l'@ip principal associé au routeur  
+SNMPv2-SMI::mib-2.68.1.3.1.9.2.1 = INTEGER: 1     ---> le mode préemption du routeur ici : 1 = activé 
 SNMPv2-SMI::mib-2.68.1.3.1.10.2.1 = ""
 SNMPv2-SMI::mib-2.68.1.3.1.11.2.1 = INTEGER: 1
 SNMPv2-SMI::mib-2.68.1.3.1.12.2.1 = INTEGER: 1
