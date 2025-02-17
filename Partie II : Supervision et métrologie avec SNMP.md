@@ -1,6 +1,6 @@
 ## Configuration de SNMPv3 dans les routeurs 
 
-'''
+```
 813-R2(config)#do show snmp user
 
 User name: snmpuser
@@ -28,4 +28,4 @@ contextname: <no context specified>         storage-type: nonvolatile
 readview : v1default                        writeview: <no writeview specified>
 notifyview: *tv.FFFFFFFF.FFFFFFFF.FFFFFFFF.F
 row status: active
-'''
+```
