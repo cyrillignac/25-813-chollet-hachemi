@@ -115,4 +115,24 @@ La ligne du fichier de la MIB VRRP qui indique l'OID relatif de la branche VRRP 
 ```
 vrrpMIB OBJECT IDENTIFIER ::= { mib-2 68 }
 ```
+## Question 12 : 
+La commande _snmpwalk -v2c -c 123test123 10.100.3.254 vrrpMIB_ échoue car  l'objet vrrpMIB que nous tentons d'interroger via SNMP n'est pas trouvé dans la base de données MIB du périphérique cible (ici 10.100.3.254 : l'interface interne du routeur).
 
+## Question 13 : 
+```
+[root@G3-813-B etudiant]# snmpwalk -v2c -c 123test123 10.100.3.251 1.3.6.1.2.1.68.1.3
+SNMPv2-SMI::mib-2.68.1.3.1.2.2.1 = Hex-STRING: 00 00 5E 00 01 01
+SNMPv2-SMI::mib-2.68.1.3.1.3.2.1 = INTEGER: 3
+SNMPv2-SMI::mib-2.68.1.3.1.4.2.1 = INTEGER: 1
+SNMPv2-SMI::mib-2.68.1.3.1.5.2.1 = INTEGER: 100
+SNMPv2-SMI::mib-2.68.1.3.1.6.2.1 = INTEGER: 1
+SNMPv2-SMI::mib-2.68.1.3.1.7.2.1 = IpAddress: 10.100.3.251
+SNMPv2-SMI::mib-2.68.1.3.1.8.2.1 = IpAddress: 10.100.3.254
+SNMPv2-SMI::mib-2.68.1.3.1.9.2.1 = INTEGER: 1
+SNMPv2-SMI::mib-2.68.1.3.1.10.2.1 = ""
+SNMPv2-SMI::mib-2.68.1.3.1.11.2.1 = INTEGER: 1
+SNMPv2-SMI::mib-2.68.1.3.1.12.2.1 = INTEGER: 1
+SNMPv2-SMI::mib-2.68.1.3.1.13.2.1 = Timeticks: (0) 0:00:00.00
+SNMPv2-SMI::mib-2.68.1.3.1.14.2.1 = INTEGER: 1
+SNMPv2-SMI::mib-2.68.1.3.1.15.2.1 = INTEGER: 1
+```
