@@ -91,14 +91,13 @@ Capturing on 'enp0s8'
 
 
 ```
-| En-tête IP                                  | En-tête UDP                 | Version | Communauté | PDU                        | Identificateur de requête | Status d'erreur | Index d'erreur | Nom           | Valeur       |
-|---------------------------------------------|-----------------------------|---------|------------|----------------------------|---------------------------|------------------|----------------|---------------|--------------|
-| `00 00... 00 45 00` | `11 e8 40 00 40 11 9c 14`   | 2c      | 123test123      | `30 2f 02 01 01 04 0a 31 32 33 74 65 73 74 31 32 33` | `0x00 39`(get-request)                  | Pas d'erreur     | Aucun          | sysLocation   | test123      |
-| `08 00 ... 00 45 00` | `ff 11 a3 21`               | 2c      | 123test123       | `30 31 02 01 01 04 0a 31 32 33 74 65 73 74 31 32 33` | `0x00 3b`(get-response)                  | Pas d'erreur     | Aucun          | sysLocation   | test123      |
-| `00 00 ... 00 45 00` | `86 2d 40 00 40 11 9c 0d`   | 2c      | 123test123       | `30 2f 02 01 01 04 0a 31 32 33 74 65 73 74 31 32 33` | `0x00 39`(get-request)                  | Pas d'erreur     | Aucun          | sysLocation   | test123      |
-| `08 00 ... 00 45 00` | `ff 11 a3 20`               | 2c      | 123test123       | `30 31 02 01 01 04 0a 31 32 33 74 65 73 74 31 32 33` | `0x00 3b`(get-response)                  | Pas d'erreur     | Aucun          | sysLocation   | test123      |
 
-
+| En-tête IP | En-tête UDP | Version | Communauté | PDU | Identificateur de requête | Status d'erreur | Index d'erreur | Nom | Valeur |
+|------------|-------------|---------|------------|-----|----------------------------|-----------------|----------------|-----|--------|
+| 0a 64 03 02 0a fa 00 06 (Source IP: 10.100.3.2, Destination IP: 10.250.0.6) | a5 d9 00 a1 00 39 18 b0 (Source Port: 42457, Destination Port: 161, Length: 57) | 02 01 01 (SNMP Version 2c) | 0a 31 32 33 74 65 73 74 31 32 33 (Community: 123test123) | a1 1e (Get-Next Request) | 02 04 50 a2 8e 4c (Request ID: 135792468) | 02 01 00 (Error Status: No Error) | 02 01 00 (Error Index: 0) | 30 10 30 0e 06 0a 2b 06 01 02 01 02 02 01 04 02 (OID: 1.3.6.1.2.1.2.2.1.4.2) | 05 00 (Value: Null) |
+| 0a fa 00 06 0a 64 03 02 (Source IP: 10.250.0.6, Destination IP: 10.100.3.2) | 00 a1 a5 d9 00 3b 55 ca (Source Port: 161, Destination Port: 42457, Length: 59) | 02 01 01 (SNMP Version 2c) | 0a 31 32 33 74 65 73 74 31 32 33 (Community: 123test123) | a2 20 (Get-Response) | 02 04 50 a2 8e 4c (Request ID: 135792468) | 02 01 00 (Error Status: No Error) | 02 01 00 (Error Index: 0) | 30 12 30 10 06 0a 2b 06 01 02 01 02 02 01 04 03 (OID: 1.3.6.1.2.1.2.2.1.4.3) | 02 05 dc (Value: 1500) |
+| 0a 64 03 02 0a fa 00 06 (Source IP: 10.100.3.2, Destination IP: 10.250.0.6) | a5 d9 00 a1 00 39 18 b0 (Source Port: 42457, Destination Port: 161, Length: 57) | 02 01 01 (SNMP Version 2c) | 0a 31 32 33 74 65 73 74 31 32 33 (Community: 123test123) | a0 1e (Get-Request) | 02 04 50 a2 8e 4d (Request ID: 135792469) | 02 01 00 (Error Status: No Error) | 02 01 00 (Error Index: 0) | 30 10 30 0e 06 0a 2b 06 01 02 01 02 02 01 04 02 (OID: 1.3.6.1.2.1.2.2.1.4.2) | 05 00 (Value: Null) |
+| 0a fa 00 06 0a 64 03 02 (Source IP: 10.250.0.6, Destination IP: 10.100.3.2) | 00 a1 a5 d9 00 3b 55 ca (Source Port: 161, Destination Port: 42457, Length: 59) | 02 01 01 (SNMP Version 2c) | 0a 31 32 33 74 65 73 74 31 32 33 (Community: 123test123) | a2 20 (Get-Response) | 02 04 50 a2 8e 4d (Request ID: 135792469) | 02 01 00 (Error Status: No Error) | 02 01 00 (Error Index: 0) | 30 12 30 10 06 0a 2b 06 01 02 01 02 02 01 04 02 (OID: 1.3.6.1.2.1.2.2.1.4.2) | 02 05 dc (Value: 1500) |
 
 ```
 [root@G3-813-B etudiant]# tshark -i enp0s8 -f "udp port 161"
