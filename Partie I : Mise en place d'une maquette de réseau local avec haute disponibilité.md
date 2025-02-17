@@ -177,5 +177,6 @@ GigabitEthernet2 - Group 1
 ```
 
 Test 2 : ping sur l'adresse virtuelle du VRRP depuis les machines clientes (A et B)
-
+Sur A : Ping 10.100.3.254 (@VRRP)
+-> Ping OK 
 comportement prévu : ping réussi.
