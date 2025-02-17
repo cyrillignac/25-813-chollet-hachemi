@@ -109,3 +109,10 @@ Capturing on 'enp0s8'
     4 0.003934426   10.250.0.6 → 10.100.3.2   SNMP 93 get-response 1.3.6.1.2.1.2.2.1.4.2
 
 ```
+
+## Question 11 : 
+La ligne du fichier de la MIB VRRP qui indique l'OID relatif de la branche VRRP par rapport à mib-2 est :
+```
+vrrpMIB OBJECT IDENTIFIER ::= { mib-2 68 }
+```
+
