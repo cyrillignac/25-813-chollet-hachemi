@@ -140,3 +140,14 @@ SNMPv2-SMI::mib-2.68.1.3.1.15.2.1 = INTEGER: 1
 ## Question 14 : 
 Iperf utilise par défaut TCP mais peut être utilisé avec UDP. Pour ce qui est du temps de test, il est de 10 secondes, mais peut aussi être modifié.
 
+## Question 15 : 
+Les différences de mesures trouvées entre l'utilisation de l'outil Iperf et Capinfos peuvent provenir de la manière de traiter la donnée (la prise en compte des entêtes tcp ou non), de la manière de capturer les trames et de les traiter (les traiter au fur et à mesure ou après la capture), ou bien encore la prise en compte des retransmissions quand certains paquets échouent. 
+
+## Question 16 :
+ifInOctets et ifOutOctets (32 bits) :
+- ifInOctets (OID : .1.3.6.1.2.1.2.2.1.10) : Compteur d'octets entrants (32 bits).
+- ifOutOctets (OID : .1.3.6.1.2.1.2.2.1.16) : Compteur d'octets sortants (32 bits).
+
+ifHCInOctets et ifHCOutOctets (64 bits) :
+- ifHCInOctets (OID : .1.3.6.1.2.1.31.1.1.1.6) : Compteur d'octets entrants (64 bits, High Capacity).
+- ifHCOutOctets (OID : .1.3.6.1.2.1.31.1.1.1.10) : Compteur d'octets sortants (64 bits, High Capacity).
