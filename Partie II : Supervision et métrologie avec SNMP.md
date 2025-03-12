@@ -146,6 +146,13 @@ Iperf utilise par défaut TCP mais peut être utilisé avec UDP. Pour ce qui est
 Les différences de mesures trouvées entre l'utilisation de l'outil Iperf et Capinfos peuvent provenir de la manière de traiter la donnée (la prise en compte des entêtes tcp ou non), de la manière de capturer les trames et de les traiter (les traiter au fur et à mesure ou après la capture), ou bien encore la prise en compte des retransmissions quand certains paquets échouent. 
 
 ## Question 16 :
+
+Il est préferable d'utiliser les compteurs d'octets en version 32bits si notre débit sur nos interfaces est inférieur à 10Mbps et si notre équipement ne support pas le SNMPv2c ou SNMPv3
+
+Il est préférable d'utiliser les compteurs d'octets en version 64bits si notre débit sur nos interfaces est supérieur à 100Mbps. Cela évite les problèmes de dépassement si le polling SNMP est supérieur à 30 secondes, et garanti une mesure fiable.
+
+Dans notre cas il est préférable d'utiliser les compteurs d'octets en version : ....bits
+
 ifInOctets et ifOutOctets (32 bits) :
 - ifInOctets (OID : .1.3.6.1.2.1.2.2.1.10) : Compteur d'octets entrants (32 bits).
 - ifOutOctets (OID : .1.3.6.1.2.1.2.2.1.16) : Compteur d'octets sortants (32 bits).
