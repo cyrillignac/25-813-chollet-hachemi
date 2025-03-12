@@ -40,6 +40,8 @@ SNMPv2-MIB::sysLocation.0 = STRING: Data Center - Salle 121
 
 
 # Configuration de SNMPv2 dans les routeurs 
+Dans cette partie nous allons mettre en place SNPv2 dans les routeurs.
+Voici ci-dessous la configuration snmp que nous avons mis en place sur les routeurs ainsi que sur les machines internes.
 ```
 813-R2#show running-config | include snmp
 snmp-server group SNMPv3Group v3 priv
@@ -54,9 +56,11 @@ SNMPv2-MIB::sysLocation.0 = STRING: Data Center - Salle 121
 SNMP est encoder grâce au mécanisme BER(Basic Encoding Rules).
 
 ## Question 10 : 
+Nous avons faire une capture du SNMP-GET sur la deuxième interface du routeur R2.
 Capture du SNMP-GET : avec l'option -x pour avoir sous la forme d'une suite d'octet 
 snmpwalk -v 2c -c 123test123 10.250.0.6 1.3.6.1.2.1.2.2.1.4.2
 
+Voici ci-dessous les trames sous la forme d'une suite d'octet
 ```
 [root@G3-813-B etudiant]# tshark -i enp0s8 -f "udp port 161" -x
 Running as user "root" and group "root". This could be dangerous.
@@ -91,6 +95,7 @@ Capturing on 'enp0s8'
 
 
 ```
+Nous pouvons mettre en forme ces 4 trames de la même manière que vue en cours pour pouvoir comprarer avec les résultats vue en cours.
 
 | En-tête IP | En-tête UDP | Version | Communauté | PDU | Identificateur de requête | Status d'erreur | Index d'erreur | Nom | Valeur |
 |------------|-------------|---------|------------|-----|----------------------------|-----------------|----------------|-----|--------|
@@ -111,6 +116,8 @@ Capturing on 'enp0s8'
 
 ```
 
+On s’intéresse ici à l’affichage des informations SNMP correspondant au fonctionnement de VRRP.
+
 ## Question 11 : 
 La ligne du fichier de la MIB VRRP qui indique l'OID relatif de la branche VRRP par rapport à mib-2 est :
 ```
@@ -120,6 +127,8 @@ vrrpMIB OBJECT IDENTIFIER ::= { mib-2 68 }
 La commande _snmpwalk -v2c -c 123test123 10.100.3.254 vrrpMIB_ échoue car  l'objet vrrpMIB que nous tentons d'interroger via SNMP n'est pas trouvé dans la base de données MIB du périphérique cible (ici 10.100.3.254 : l'interface interne du routeur).
 
 ## Question 13 : 
+On s'intéresse ici à la table vrrpOperTable. 
+Nous pouvons voir ci-dessous la vrrpOperTable de R2 avec les explications des 8 premières lignes. 
 ```
 [root@G3-813-B etudiant]# snmpwalk -v2c -c 123test123 10.100.3.251 1.3.6.1.2.1.68.1.3
 SNMPv2-SMI::mib-2.68.1.3.1.2.2.1 = Hex-STRING: 00 00 5E 00 01 01   ---> @Mac virtuelle de la table vvrpOperTable
@@ -137,7 +146,10 @@ SNMPv2-SMI::mib-2.68.1.3.1.13.2.1 = Timeticks: (0) 0:00:00.00
 SNMPv2-SMI::mib-2.68.1.3.1.14.2.1 = INTEGER: 1
 SNMPv2-SMI::mib-2.68.1.3.1.15.2.1 = INTEGER: 1
 ```
+
 # Métrologie
+On s'intéresse dans cette partie aux possibilités offertes par SNMP pour faire de la métrologie. On se
+focalisera sur la mesure du débit et notamment sur la précision de cette mesure.
 
 ## Question 14 : 
 Iperf utilise par défaut TCP mais peut être utilisé avec UDP. Pour ce qui est du temps de test, il est de 10 secondes, mais peut aussi être modifié.
