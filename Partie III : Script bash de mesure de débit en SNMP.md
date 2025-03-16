@@ -157,3 +157,22 @@ else
     byte_diff=$((current_value - last_value))
 fi
 ```
+
+EXECUTION VIA CRON :
+
+sudo mv snmp-monitor.sh /usr/local/bin/snmp-monitor.sh
+sudo chmod +x /usr/local/bin/snmp-monitor.sh  # Rendre exécutable
+
+crontab -e
+
+* * * * * /usr/local/bin/snmp-monitor.sh >> /var/log/snmp_monitor.log 2>&1
+
+"* * * * *" rend le fichier executable toutes les minutes
+"/usr/local/bin/snmp-monitor.sh" chemin absolu du script
+">> /var/log/snmp_monitor.log" sors les resultats dans le fichier de log
+"2>&1" stocke les erreurs vers le fichier de log
+
+crontab -l pour vérifier que le script est bien en execution, on doit avoir notre ligne ajoutée
+
+tail -f /var/log/snmp_monitor.log pour vérifier les lignes de log en temps réel
+
