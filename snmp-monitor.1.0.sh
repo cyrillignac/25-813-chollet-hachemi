@@ -16,3 +16,13 @@ timestamp=$(date +%s)
 
 # Stockage des résultats dans le fichier
 echo "$timestamp\;$value" >> "$filename"
+
+############################
+###TRAITEMENT DES ERREURS###
+############################
+
+# Vérification si la récupération SNMP a fonctionné
+if [[ -z "$current_value" || ! "$current_value" =~ ^[0-9]+$ ]]; then
+    echo "Erreur : Impossible de récupérer la valeur SNMP."
+    exit 1
+fi
