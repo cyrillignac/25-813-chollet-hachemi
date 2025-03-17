@@ -8,5 +8,11 @@ community="public"              # Communauté SNMP
 # Exécution de la requête SNMP et récupération de la valeur brute
 value=$(snmpget -v2c -c "$community" -Oqv "$agent_ip" "$oid")
 
-# Affichage du résultat
-echo "$value"
+# Récupération de la valeur du compteur d’octets SNMP
+value=$(snmpget -v2c -Oqv -c "$community" "$agent_ip" "$oid")
+
+# Récupération de l’horodatage en secondes UNIX
+timestamp=$(date +%s)
+
+# Stockage des résultats dans le fichier
+echo "$timestamp\;$value" >> "$filename"
