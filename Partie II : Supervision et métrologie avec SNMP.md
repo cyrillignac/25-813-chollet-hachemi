@@ -238,3 +238,10 @@ ifInOctets et ifOutOctets (32 bits) :
 ifHCInOctets et ifHCOutOctets (64 bits) :
 - ifHCInOctets (OID : .1.3.6.1.2.1.31.1.1.1.6) : Compteur d'octets entrants (64 bits, High Capacity).
 - ifHCOutOctets (OID : .1.3.6.1.2.1.31.1.1.1.10) : Compteur d'octets sortants (64 bits, High Capacity).
+
+## Question 17 :
+
+Pas réussi à la faire : pas d'infos sur les mdp du snmpv3 si il y en a, pas d'accès au routeur B.
+
+Pour obtenir le débit en bits/s cependant on peut utiliser cette formule : Debit (bit/s)=(Nouvelle valeur - Ancienne valeur/60)​×8
+on récupère alors les valeurs des compteurs et on y applique cette formule
