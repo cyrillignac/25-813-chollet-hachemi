@@ -155,7 +155,73 @@ focalisera sur la mesure du débit et notamment sur la précision de cette mesur
 Iperf utilise par défaut TCP mais peut être utilisé avec UDP. Pour ce qui est du temps de test, il est de 10 secondes, mais peut aussi être modifié.
 
 ## Question 15 : 
-Les différences de mesures trouvées entre l'utilisation de l'outil Iperf et Capinfos peuvent provenir de la manière de traiter la donnée (la prise en compte des entêtes tcp ou non), de la manière de capturer les trames et de les traiter (les traiter au fur et à mesure ou après la capture), ou bien encore la prise en compte des retransmissions quand certains paquets échouent. 
+
+Infos captées par Iperf : 
+```
+[root@G3-813-A etudiant]# iperf3 -c 10.100.3.2 -u -b 500K
+Connecting to host 10.100.3.2, port 5201
+[  5] local 10.100.3.1 port 54508 connected to 10.100.3.2 port 5201
+[ ID] Interval           Transfer     Bitrate         Total Datagrams
+[  5]   0.00-1.00   sec  62.2 KBytes   510 Kbits/sec  44
+[  5]   1.00-2.00   sec  60.8 KBytes   498 Kbits/sec  43
+[  5]   2.00-3.00   sec  60.8 KBytes   498 Kbits/sec  43
+[  5]   3.00-4.00   sec  60.8 KBytes   498 Kbits/sec  43
+[  5]   4.00-5.00   sec  60.8 KBytes   498 Kbits/sec  43
+[  5]   5.00-6.00   sec  60.8 KBytes   498 Kbits/sec  43
+[  5]   6.00-7.00   sec  62.2 KBytes   510 Kbits/sec  44
+[  5]   7.00-8.00   sec  60.8 KBytes   498 Kbits/sec  43
+[  5]   8.00-9.00   sec  60.8 KBytes   498 Kbits/sec  43
+[  5]   9.00-10.00  sec  60.8 KBytes   498 Kbits/sec  43
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bitrate         Jitter    Lost/Total Datagrams
+[  5]   0.00-10.00  sec   611 KBytes   500 Kbits/sec  0.000 ms  0/432 (0%)  sender
+[  5]   0.00-10.01  sec   611 KBytes   500 Kbits/sec  0.067 ms  0/432 (0%)  receiver
+
+```
+
+Infos de wireshark (capinfos) :
+```
+[root@G3-813-B etudiant]# capinfos /tmp/capture-500k-udp.pcap
+File name:           /tmp/capture-500k-udp.pcap
+File type:           Wireshark/... - pcapng
+File encapsulation:  Ethernet
+File timestamp precision:  nanoseconds (9)
+Packet size limit:   file hdr: (not set)
+Number of packets:   434
+File size:           658kB
+Data size:           643kB
+Capture duration:    9,993791566 seconds
+First packet time:   2025-03-17 14:07:30,714963648
+Last packet time:    2025-03-17 14:07:40,708755214
+Data byte rate:      64kBps
+Data bit rate:       515kbps
+Average packet size: 1483,38 bytes
+Average packet rate: 43 packets/s
+SHA256:              1dbf95fb6d802d55d3b7f6464f2173c1451484a2116498b7d543d8738c9fb018
+RIPEMD160:           dd647c69e1ad03d109d4fe233d0af701eef9c378
+SHA1:                ea858a76e033a99b67d8981f01cf98c95fb67c6b
+Strict time order:   True
+Capture hardware:    Intel(R) Xeon(R) Platinum 8458P (with SSE4.2)
+Capture oper-sys:    Linux 5.14.0-70.26.1.el9_0.x86_64
+Capture application: Dumpcap (Wireshark) 3.4.10 (Git commit 733b3a137c2b)
+Number of interfaces in file: 1
+Interface #0 info:
+                     Name = enp0s8
+                     Encapsulation = Ethernet (1 - ether)
+                     Capture length = 262144
+                     Time precision = nanoseconds (9)
+                     Time ticks per second = 1000000000
+                     Time resolution = 0x09
+                     Filter string = udp port 5201
+                     BPF filter length = 0
+                     Operating system = Linux 5.14.0-70.26.1.el9_0.x86_64
+                     Number of stat entries = 1
+                     Number of packets = 434
+
+```
+
+Les différences de mesures trouvées entre l'utilisation de l'outil Iperf et Capinfos peuvent provenir de la manière de traiter la donnée (la prise en compte des entêtes udp ou non), de la manière de capturer les trames et de les traiter (les traiter au fur et à mesure ou après la capture), ou bien encore la prise en compte des retransmissions quand certains paquets échouent. 
+
 
 ## Question 16 :
 
