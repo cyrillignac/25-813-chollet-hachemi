@@ -127,8 +127,8 @@ GigabitEthernet2 - Group 1
   FLAGS: 0/1
 ###########################################################
 G3-R1(config)#no vrrp 1
-G3-R1(config-if)#do sh vrrp
-G3-R1(config-if)#
+G3-R1(config-if)# interface g2
+G3-R1(config-if)# shutdown 
 ###########################################################
 813-R2#show vrrp
 GigabitEthernet2 - Group 1
@@ -144,8 +144,13 @@ GigabitEthernet2 - Group 1
   FLAGS: 1/1
 ###########################################################
 ```
+Après un shutdown de l'interface de R1.  
+La VRRP coté R2, est devenu Master.   
 
-Test 2 : ping sur l'adresse virtuelle du VRRP depuis les machines clientes (A et B)
-Sur A : Ping 10.100.3.254 (@VRRP)
+Test 2 : ping internet depuis les machines clientes (A et B)
+Sur A : Ping 8.8.8.8
 -> Ping OK 
 comportement prévu : ping réussi.
+
+On remet l'interface active et on vérifie que tout continue de fonctionner.   
+Il faut également testet lorsqu'on désactive l'interface externe du routeur actif. Dans cette configuration si A veut ping 8.8.8.8, R1 va communiquer avec R2 et R2 vers l'exterieur. 
