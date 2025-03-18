@@ -69,24 +69,23 @@ S | @réseau_interne | R2-externe
 Si R1 ou R2 tombait en panne on perdrait 50% des flux réseaux.
 
 # CONFIGURATION ROUTEURS & MACHINE
-
-### Routeur R1 :
-Identifiants : admin@172.29.253.21:password 
-
-Configuration : 
- - Déclaration LO ospf ;
- - Déclaration réseaux DC ;
-
+Ici nous allons mettre en place et configurer A et R1
 
 ## Question 5.
-Sur A :
-Ping R1 : ping 10.100.3.252 
--> Ping ok 
+Pour tester le fonctionnement du réseau mise en place jusqu'à maitenant.  
+Sur A :  
+Ping R1 : ping 10.250.0.5  
+-> Ping ok   
 ```bash
-[etudiant@G3-813-A ~]$ ping 10.100.3.252
-PING 10.100.3.252 (10.100.3.252) 56(84) octets de données.
-64 octets de 10.100.3.252 : icmp_seq=2 ttl=255 temps=0.676 ms
+[etudiant@G3-813-A ~]$ ping 10.250.0.5
+PING 10.250.0.5 (10.250.0.5) 56(84) octets de données.
+64 octets de 10.250.0.5 : icmp_seq=2 ttl=255 temps=0.676 ms
 ```
+Nous allons tester si depuis R1 on peut joindre RPROF1 et RPROF2 :    
+Sur R1 : ping 10.250.0.253  
+-> ping OK  
+Sur R1 : ping 10.250.0.254  
+-> ping OK   
 
 ## Question 6.
 
