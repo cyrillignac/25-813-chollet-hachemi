@@ -90,44 +90,9 @@ Sur R1 : ping 10.250.0.254
 ## Question 6.
 
 ### Tests OSPF
-SUR R1 :
-'sh ip route' --> Resultat attendu : affichage de routes partagées via OSPF ;
-```bash
-G3-R1(config)# do sh ip route
-Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
-       D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
-       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
-       E1 - OSPF external type 1, E2 - OSPF external type 2, m - OMP
-       n - NAT, Ni - NAT inside, No - NAT outside, Nd - NAT DIA
-       i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
-       ia - IS-IS inter area, * - candidate default, U - per-user static route
-       H - NHRP, G - NHRP registered, g - NHRP registration summary
-       o - ODR, P - periodic downloaded static route, l - LISP
-       a - application route
-       + - replicated route, % - next hop override, p - overrides from PfR
-       & - replicated local route overrides by connected
-
-Gateway of last resort is 10.250.0.254 to network 0.0.0.0
-
-O*E2  0.0.0.0/0 [110/10] via 10.250.0.254, 00:00:55, GigabitEthernet3
-                [110/10] via 10.250.0.253, 00:00:55, GigabitEthernet3
-      10.0.0.0/8 is variably subnetted, 7 subnets, 2 masks
-C        10.10.3.1/32 is directly connected, Loopback1
-O        10.100.2.0/24 [110/2] via 10.250.0.4, 00:00:55, GigabitEthernet3
-C        10.100.3.0/24 is directly connected, GigabitEthernet2
-L        10.100.3.252/32 is directly connected, GigabitEthernet2
-O        10.200.1.0/24 [110/2] via 10.250.0.102, 00:00:55, GigabitEthernet3
-C        10.250.0.0/24 is directly connected, GigabitEthernet3
-L        10.250.0.5/32 is directly connected, GigabitEthernet3
-      172.29.0.0/16 is variably subnetted, 2 subnets, 2 masks
-C        172.29.253.0/24 is directly connected, GigabitEthernet1
-L        172.29.253.21/32 is directly connected, GigabitEthernet1
-O     192.168.140.0/23 [110/101] via 10.250.0.253, 00:00:55, GigabitEthernet3
-O     192.168.176.0/24 [110/101] via 10.250.0.254, 00:00:55, GigabitEthernet3
-```
-On voit des routes ayant pour "code" O, ce qui signifie qu'OSPF est bien lancé. On detecte ainsi les déclaration OSPF des autres groupes (exemple : 10.100.2.0/24, ligne 19 du résultat de commande).
-
-
+Pour tester la mise en place de OSPF nous allons tester la connectivité à internet :  
+Sur A : ping 8.8.8.8
+  
 ## Question 7.
 
 Nos tests visent à démontrer que la transmission du rôle de Master entre les deux routeurs se passe comme prévu.
