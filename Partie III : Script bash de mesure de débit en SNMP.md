@@ -14,9 +14,9 @@ Nous allons donc utilisé cron ou les timers systemd dans notre à la place du p
 ## 
 
 Première version du script : 
-<a href="https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/snmp-1.sh"> script-snmp-1 
+<a href="https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/snmp-1.sh"> script-snmp-1   
 Résultat de la commande : 
-> Valeur du compteur d’octets de l’interface 3 : 24657423
+```Valeur du compteur d’octets de l’interface 3 : 24657423```
 
 >> Explication des options de snmpget :
 -v2c → Utilisation de SNMP version 2c.  
@@ -24,15 +24,15 @@ Résultat de la commande :
 "$agent_ip" "$oid" → Adresse de l’équipement et OID interrogé.  
 
 Deuxième version du script (timestamps + stockage fichier) :
-<a href="https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/snmp-2.sh"> script-snmp-2
+<a href="https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/snmp-2.sh"> script-snmp-2  
 Résultat de la commande : cat throughput_int1.txt
-> 1741859703;10474886
+```` 1741859703;10474886
 1741861778;10523085;185
 1741861789;10523591;368
 1741867126;10645180;182
 1742290714;24652165;264
 1742291014;24662806;283
-1742291020;24663062;341
+1742291020;24663062;341```
 
 
 >> "$filename" → Ajoute la ligne à la fin du fichier sans l’écraser.
