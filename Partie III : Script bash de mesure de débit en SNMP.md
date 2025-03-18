@@ -54,76 +54,78 @@ Verfication 2 : Enregistrement dans un fichier
 2) Lancer le script
 3) Vérifier qu'une ligne à bien été ajouter à la fin sans écraser les autres lignes déjà existante.
   
-Verfication 3 : Conrôle de l'horodatage
-1) 
-
-Vérification de l'horodatage :
-Lancer le script puis un date +%s afin de comparer les deux valeurs --> les deux valeurs ne sont différentes que de quelques secondes
-
-Vérification XXYY :
-Lancer le script deux fois à 30 secondes d'intervales --> les deux valeurs retournées par le script doivent être différentes et le timestamp doit avoir augmenté de 30
-
+Verfication 3 : Conrôle de l'horodatage  
+1) Lancer le script et regarde la colonne lié à la date  
+2) Lancer la commande ``` date+%s```  
+3) Comparer les deux valeurs, elles doivent être presque identique à quelque seconde près.
+  
 ## 
-Gestion des erreurs : 
-Lancer le script en changeant ses paramètres (à savoir l'ip de dest; le fichier de dest; avec une mauvaise communauté ...) --> doit renvoyer les erreurs apropriées à chaque fausse erreur implantée
+Dans cette partie nous allons améloirer notre script, ce dernier devra gérer la première exécution (aucune donnée dans le ficiher).  
 
-Version 3 du script : gestion des erreurs et du premier lancement : 
+Version 3 du script : gestion des erreurs et du premier lancement :   
 
 ```
 #!/bin/bash
 
-# Définition des variables
-oid="IF-MIB::ifHCOutOctets.3"  # OID du compteur d’octets sortants
-agent_ip="192.168.1.1"          # Adresse IP de l’équipement SNMP
-community="public"              # Communauté SNMP
-filename="/var/log/snmp_data.log" # Fichier de stockage des données
-max_counter=$((2**64))          # Valeur max du compteur 64 bits
+# Définition des paramètres SNMP
+oid="IF-MIB::ifHCOutOctets.3"  # OID pour ifHCOutOctets de l'interface 3
+agent_ip="10.100.3.254"         # Adresse IP de l'agent SNMP
+community="123test123"          # Communauté SNMP v2c
+filename="throughput_int1.txt"  # Fichier de stockage des données
 
-# Récupération de la valeur actuelle du compteur SNMP
-current_value=$(snmpget -v2c -Oqv -c "$community" "$agent_ip" "$oid")
-current_timestamp=$(date +%s)
+# Exécution de la requête SNMP et récupération de la valeur
+value=$(snmpget -v2c -Oqv -c "$community" "$agent_ip" "$oid" 2>/dev/null)
 
-# Vérification si la récupération SNMP a fonctionné
-if [[ -z "$current_value" || ! "$current_value" =~ ^[0-9]+$ ]]; then
-    echo "Erreur : Impossible de récupérer la valeur SNMP."
+# Vérification de la récupération SNMP
+if [[ -z "$value" || ! "$value" =~ ^[0-9]+$ ]]; then
+    echo "Erreur : Impossible de récupérer la valeur SNMP depuis $agent_ip." >&2
     exit 1
 fi
 
-# Vérification si le fichier existe et contient une mesure précédente
+# Récupération de la date en timestamp UNIX
+current_time=$(date +%s)
+
+# Vérification si le fichier existe et contient des données
 if [[ ! -s "$filename" ]]; then
-    # Première exécution : on enregistre sans calcul de débit
-    echo "$current_timestamp $current_value" > "$filename"
-    echo "Première exécution : données initiales enregistrées."
+    # Première exécution : enregistrement des données sans calcul de débit
+    echo "${current_time};${value};FIRST_RUN" > "$filename"
+    echo "Première exécution : données enregistrées. Le débit sera calculé lors de la prochaine exécution."
     exit 0
 fi
 
-# Lecture de la dernière mesure stockée
-read last_timestamp last_value < <(tail -n 1 "$filename")
+# Lecture de la dernière ligne du fichier
+last_line=$(tail -n 1 "$filename")
 
-# Calcul du temps écoulé
-time_diff=$((current_timestamp - last_timestamp))
+# Extraction de l'ancien timestamp et valeur
+last_time=$(echo "$last_line" | cut -d ";" -f 1)
+last_value=$(echo "$last_line" | cut -d ";" -f 2)
 
-# Vérification que le temps écoulé est valide
-if [[ "$time_diff" -le 0 ]]; then
-    echo "Erreur : Problème de synchronisation temporelle."
-    exit 1
-fi
-
-# Gestion du rebouclage du compteur SNMP (overflow)
-if [[ "$current_value" -lt "$last_value" ]]; then
-    byte_diff=$(( (max_counter - last_value) + current_value ))
-else
-    byte_diff=$((current_value - last_value))
+# Vérification si c'était la première exécution
+if [[ "$last_value" == "FIRST_RUN" ]]; then
+    last_time=$current_time
+    last_value=$value
+    echo "${current_time};${value};0" > "$filename"
+    echo "Deuxième exécution : première mesure complète enregistrée, calcul de débit activé à partir de maintenant."
+    exit 0
 fi
 
 # Calcul du débit en bits/s
-bit_rate=$(( (byte_diff * 8) / time_diff ))
+time_diff=$((current_time - last_time))
+value_diff=$((value - last_value))
 
-# Stockage des résultats dans le fichier
-echo "$current_timestamp $current_value $bit_rate" >> "$filename"
+if [[ $time_diff -gt 0 ]]; then
+    throughput=$(( (value_diff * 8) / time_diff ))  # Conversion octets → bits
+else
+    throughput=0
+fi
 
-# Affichage pour le suivi
-echo "Mesure enregistrée : Timestamp=$current_timestamp, Octets=$current_value, Débit=${bit_rate}bps"
+# Écriture des nouvelles données dans le fichier
+echo "${current_time};${value};${throughput}" >> "$filename"
+
+# Affichage du résultat pour suivi
+echo "Mesure enregistrée : Timestamp=$current_time, Octets=$value, Débit=${throughput}bps"
+
+
 ```
 
 ##Question 20 : 
