@@ -229,7 +229,7 @@ Il est préferable d'utiliser les compteurs d'octets en version 32bits si notre 
 
 Il est préférable d'utiliser les compteurs d'octets en version 64bits si notre débit sur nos interfaces est supérieur à 100Mbps. Cela évite les problèmes de dépassement si le polling SNMP est supérieur à 30 secondes, et garanti une mesure fiable.
 
-Dans notre cas il est préférable d'utiliser les compteurs d'octets en version : ....bits
+Dans notre cas il est préférable d'utiliser les compteurs d'octets en version : 32 bits car nous avons pas un débit superieur à 100Mpbs.
 
 ifInOctets et ifOutOctets (32 bits) :
 - ifInOctets (OID : .1.3.6.1.2.1.2.2.1.10) : Compteur d'octets entrants (32 bits).
@@ -240,8 +240,18 @@ ifHCInOctets et ifHCOutOctets (64 bits) :
 - ifHCOutOctets (OID : .1.3.6.1.2.1.31.1.1.1.10) : Compteur d'octets sortants (64 bits, High Capacity).
 
 ## Question 17 :
+Nous allons nous intreresser au débit sortant du réseau. Voici ci-dessous une manipulation simple permmettant de trouver le débit entrant dans notre réseau.
 
-Pas réussi à la faire : pas d'infos sur les mdp du snmpv3 si il y en a, pas d'accès au routeur B.
+La machine B (ancienne ip : 10.100.3.2) est actuellement sur le vlan 140 et a pour IP : 192.168.141.35
+Sur B, Lancer la commande ``` ipfer3 -s ``` pour mettre la machine en mode écoute 
+Sur A, lancer la commande ``` iperf3 -C 192.168.141.35 -t 30 -b 1M ```. Ici l'option "-t" permet de générer un flux pendant 30 secondes.
 
-Pour obtenir le débit en bits/s cependant on peut utiliser cette formule : Debit (bit/s)=(Nouvelle valeur - Ancienne valeur/60)​×8
-on récupère alors les valeurs des compteurs et on y applique cette formule
+Sur A, lancer le script ci-dessous ("script_q17_debit_sortant.sh"), qui mesure le débit sortant.
+
+```bash
+M1=$(snmpget -v2c -c 123test123 -Oqv 10.100.3.254 1.3.6.1.2.1.2.2.1.16.3) # Mesure du nombre d'octets envoyés
+sleep 10
+M2=$(snmpget -v2c -c 123test123 -Oqv 10.100.3.254 1.3.6.1.2.1.2.2.1.16.3) # Mesure du nombre d'octets envoyés après 10 secondes
+echo "Débit sortant: $(( (M2 - M1) * 8 / 10 )) bits/s" # Calcul du débit sortant en bits par seconde
+```
+
