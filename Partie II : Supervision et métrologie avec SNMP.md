@@ -247,9 +247,9 @@ ifHCInOctets et ifHCOutOctets (64 bits) :
 Nous allons nous intéresser au débit sortant du réseau. Voici ci-dessous une manipulation simple permmettant de trouver le débit sortant dans notre réseau.
 
 La machine B (ancienne IP : 10.100.3.2) est actuellement sur le VLAN 140 et a pour IP : 192.168.141.35
-Sur B, lancer la commande ``` ipfer3 -s ``` pour mettre la machine en mode écoute 
-Sur A, lancer la commande ``` iperf3 -C 192.168.141.35 -t 30 -b 1M ```. Ici l'option ```-t``` permet de générer un flux pendant 30 secondes.
-
+Sur B, lancer la commande ``` ipfer3 -s ``` pour mettre la machine en mode écoute.     
+Sur A, lancer la commande ``` iperf3 -C 192.168.141.35 -t 30 -b 1M ```. Ici l'option ```-t``` permet de générer un flux pendant 30 secondes.  
+  
 Sur A, lancer le script ci-dessous ("script_q17_debit_sortant.sh"), qui mesure le débit sortant.
 
 ```bash
@@ -258,8 +258,8 @@ sleep 10
 M2=$(snmpget -v2c -c 123test123 -Oqv 10.100.3.254 1.3.6.1.2.1.2.2.1.16.3) # Mesure du nombre d'octets envoyés après 10 secondes
 echo "Débit sortant: $(( (M2 - M1) * 8 / 10 )) bits/s" # Calcul du débit sortant en bits par seconde
 ```
-Le .3 à la fin de l'OID correspond à la l'interface GigabitEthernet3 du routeur (interface externet du routeur, au niveau du réseau 10.250.0.0/24)
+Le .3 à la fin de l'OID correspond à la l'interface GigabitEthernet3 du routeur (interface externet du routeur, au niveau du réseau 10.250.0.0/24).  
 
 Grâce au script nous obtenons un débit sortant d'environ 1084451 bits/s, soit 1,10 Mbits/s
-Avec iperf3, nous avons un débit sortant d'environ 1,03 Mbits/s
+Avec iperf3, nous avons un débit sortant d'environ 1,03 Mbits/s.  
 Nous observons que les valeurs obtenues via la commande snmpget et iperf3 sont similaires.
