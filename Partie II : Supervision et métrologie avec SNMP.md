@@ -152,11 +152,15 @@ On s'intéresse dans cette partie aux possibilités offertes par SNMP pour faire
 focalisera sur la mesure du débit et notamment sur la précision de cette mesure.
 
 ## Question 14 : 
-Iperf utilise par défaut TCP mais peut être utilisé avec UDP. Pour ce qui est du temps de test, il est de 10 secondes, mais peut aussi être modifié.
+Après avoir mis en place iperf sur nos deux machines Linux A et B. 
+Sur B nous avons lancé la commande ``` iperf3 -s``` en mode serveur 
+Sur A nous avons lancé la commande ``` iperf3 -C 10.100.3.2``` en mode client
+Nous pouvons voir que Iperf utilise par défaut TCP mais peut être utilisé avec UDP (avec l'option -u). Le temps de test est de 10 secondes par défaut, mais il peut être modifié (avec l'option -t).
 
 ## Question 15 : 
-
-Infos captées par Iperf : 
+Les différences de mesures trouvées entre l'utilisation de l'outil Iperf et Capinfos peuvent provenir de la manière de traiter la donnée (la prise en compte des entêtes udp ou non), de la manière de capturer les trames et de les traiter (les traiter au fur et à mesure ou après la capture), ou bien encore la prise en compte des retransmissions quand certains paquets échouent. 
+  
+Voici ci-dessous un Iperf lancé vers la machine B sur la machine A :  
 ```bash
 [root@G3-813-A etudiant]# iperf3 -c 10.100.3.2 -u -b 500K
 Connecting to host 10.100.3.2, port 5201
@@ -179,7 +183,7 @@ Connecting to host 10.100.3.2, port 5201
 
 ```
 
-Infos de wireshark (capinfos) :
+Capture wireshark (capinfos) prise sur l'interface 2 de la machine B (vers le routeur) :
 ```bash
 [root@G3-813-B etudiant]# capinfos /tmp/capture-500k-udp.pcap
 File name:           /tmp/capture-500k-udp.pcap
@@ -220,16 +224,15 @@ Interface #0 info:
 
 ```
 
-Les différences de mesures trouvées entre l'utilisation de l'outil Iperf et Capinfos peuvent provenir de la manière de traiter la donnée (la prise en compte des entêtes udp ou non), de la manière de capturer les trames et de les traiter (les traiter au fur et à mesure ou après la capture), ou bien encore la prise en compte des retransmissions quand certains paquets échouent. 
-
-
+L'objectif de cette partie est de vérifier que les compteurs d'octets associés aux interfaces permettent d'avoir une vision précise du nombre de bits entrant/sortant d'une machine. Ces compteurs d'octets accessibles en SNMP permettront donc de calculer les débits entrant/sortant d'une machine.
+  
 ## Question 16 :
 
-Il est préferable d'utiliser les compteurs d'octets en version 32bits si notre débit sur nos interfaces est inférieur à 10Mbps et si notre équipement ne support pas le SNMPv2c ou SNMPv3
+Il est préferable d'utiliser les compteurs d'octets en version 32bits si notre débit sur nos interfaces est inférieur à 10 Mbits/s et si notre équipement ne support pas le SNMPv2c ou SNMPv3
 
-Il est préférable d'utiliser les compteurs d'octets en version 64bits si notre débit sur nos interfaces est supérieur à 100Mbps. Cela évite les problèmes de dépassement si le polling SNMP est supérieur à 30 secondes, et garanti une mesure fiable.
+Il est préférable d'utiliser les compteurs d'octets en version 64bits si notre débit sur nos interfaces est supérieur à 100 Mbits/s. Cela évite les problèmes de dépassement si le polling SNMP dépasse 30 secondes, et garantit une mesure fiable.
 
-Dans notre cas il est préférable d'utiliser les compteurs d'octets en version : 32 bits car nous avons pas un débit superieur à 100Mpbs.
+Dans notre cas il est préférable d'utiliser les compteurs d'octets en version 32 bits, car nous n'avons pas un débit supérieur à 100 Mbits/s.
 
 ifInOctets et ifOutOctets (32 bits) :
 - ifInOctets (OID : .1.3.6.1.2.1.2.2.1.10) : Compteur d'octets entrants (32 bits).
@@ -240,11 +243,11 @@ ifHCInOctets et ifHCOutOctets (64 bits) :
 - ifHCOutOctets (OID : .1.3.6.1.2.1.31.1.1.1.10) : Compteur d'octets sortants (64 bits, High Capacity).
 
 ## Question 17 :
-Nous allons nous intreresser au débit sortant du réseau. Voici ci-dessous une manipulation simple permmettant de trouver le débit entrant dans notre réseau.
+Nous allons nous intéresser au débit sortant du réseau. Voici ci-dessous une manipulation simple permmettant de trouver le débit sortant dans notre réseau.
 
-La machine B (ancienne ip : 10.100.3.2) est actuellement sur le vlan 140 et a pour IP : 192.168.141.35
-Sur B, Lancer la commande ``` ipfer3 -s ``` pour mettre la machine en mode écoute 
-Sur A, lancer la commande ``` iperf3 -C 192.168.141.35 -t 30 -b 1M ```. Ici l'option "-t" permet de générer un flux pendant 30 secondes.
+La machine B (ancienne IP : 10.100.3.2) est actuellement sur le VLAN 140 et a pour IP : 192.168.141.35
+Sur B, lancer la commande ``` ipfer3 -s ``` pour mettre la machine en mode écoute 
+Sur A, lancer la commande ``` iperf3 -C 192.168.141.35 -t 30 -b 1M ```. Ici l'option ```-t``` permet de générer un flux pendant 30 secondes.
 
 Sur A, lancer le script ci-dessous ("script_q17_debit_sortant.sh"), qui mesure le débit sortant.
 
@@ -254,8 +257,8 @@ sleep 10
 M2=$(snmpget -v2c -c 123test123 -Oqv 10.100.3.254 1.3.6.1.2.1.2.2.1.16.3) # Mesure du nombre d'octets envoyés après 10 secondes
 echo "Débit sortant: $(( (M2 - M1) * 8 / 10 )) bits/s" # Calcul du débit sortant en bits par seconde
 ```
-Le .3 à la fin de l'OID correspond à la l'interface GigabitEthernet3 du routeur (interface externet au niveau du réseau 10.250.0.0/24)
+Le .3 à la fin de l'OID correspond à la l'interface GigabitEthernet3 du routeur (interface externet du routeur, au niveau du réseau 10.250.0.0/24)
 
 Grâce au script nous obtenons un débit sortant d'environ 1084451 bits/s, soit 1,10 Mbits/s
 Avec iperf3, nous avons un débit sortant d'environ 1,03 Mbits/s
-Nous obsvervons que nous obtenons des valeurs similaires via la commande snmpget et la commande iperf3
+Nous observons que les valeurs obtenues via la commande snmpget et iperf3 sont similaires.
