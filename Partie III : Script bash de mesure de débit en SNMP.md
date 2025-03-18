@@ -16,7 +16,7 @@ Nous allons donc utilisé cron ou les timers systemd dans notre à la place du p
 Première version du script : 
 <a href="https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/snmp-1.sh"> script-snmp-1  
 
-Résultat de la commande : 
+Résultat de la commande :   
 ```Valeur du compteur d’octets de l’interface 3 : 24657423 ```
 
 >> Explication des options de snmpget :
