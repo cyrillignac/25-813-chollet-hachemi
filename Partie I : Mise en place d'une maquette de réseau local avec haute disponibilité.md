@@ -1,32 +1,38 @@
-![Schema reseau](https://media.discordapp.net/attachments/1337862960927735889/1338624271752106054/image.png?ex=67abc280&is=67aa7100&hm=ce3e3c9bbf8a914e8f08b528e65427e910013e0fe4fcb690e461e87c991ee854&=&format=webp&quality=lossless&width=1025&height=323)
 ![Schema_réseau](https://github.com/user-attachments/assets/5e61bb51-a505-4fce-84ee-2fad75b33793)
 
  ## Question 1.
  
 En supposant que chaque sous-réseau est accessible via un routeur différent, chaque routeur aura une entrée pour chaque sous-réseau, y compris les routes par défaut et les routes vers les réseaux directement connectés.
-Nous avons 15 routes pertinentes.
-- x9 : sous-réseau des autres étudiants
-- x1 : sous-réseau de notre groupe (n°3)
-- x1 : sous-réseau du professeur
-- x1 : sous-réseau Vlan 633
+Nous avons 47 routes présentes dans R1 et R2.
+- x10 : sous-réseau des autres étudiants + profs ( le réseau interne est accessible via 2 chemins aquidistants => 20 lignes pour chaque réseau interne
+- x1 : sous-réseau de notre groupe (n°3)(DC)
+- x1 : sous-réseau Vlan 633 (DC)
 - x1 : Vlan 140
 - x1 : Vlan 176
-- x1 : Route par défaut 
+- x2 : Route par défaut
+- (x1 : loopback)
+- x20 loopback de chaque routeur 
+  
+On utilise ici pour le coût le protocole OSPF. Le coût est calculé de la façon suivante :  
+coût = (débit_reference)/débit du lien 
+débit_reference = 10 Gbits/s
 
-**__➡️Table de routage partielle pour R1 (15 routes pertinentes)⬅️__**
+**__➡️Table de routage partielle pour R1 (7 routes pertinentes)⬅️__**
 | Réseau Destination  | Next-hop               | Coût | Explication                         |
 |---------------------|:---------------------:|------|:-----------------------------------:|
-| 10.100.4.0/24      | Directement Connecté   | x    | Route vers réseau interne étudiant |
-| 10.100.3.0/24      | Directement Connecté   | x    | Route vers le réseau de notre groupe |
-| 10.200.9.0/24      | Directement Connecté   | x    | Route vers le réseau du prof       |
-| 10.250.0.0/24      | Directement Connecté   | x    | Route vers le Vlan 633             |
-| 192.168.140.0/23   | 10.250.0.253           | x    | Route vers le Vlan 140             |
-| 192.168.176.0/24   | 10.250.0.254           | x    | Route vers le Vlan 176             |
-| 0.0.0.0/0          | 10.250.0.253           | x    | Route par défaut                   |
+| 10.100.3.0/24      | Directement Connecté g2  |     | Route vers réseau de notre groupe |
+| 10.250.0.0/24      | Directement Connecté g3  | x    | Route vers le VLAN 633            |
+| 10.10.3.0/24       | Directement Connecté lo  | x    | Route vers le réseau du prof       |
+| 10.100.4.0/24      | 10.250.0.253           | 20    | Route vers réseau interne étudiant |
+|      ....          | 10.250.0.254           | 20    | Route vers réseau interne étudiant |
+| 192.168.140.0/23   | 10.250.0.253           | 20    | Route vers le Vlan 140             |
+| 192.168.176.0/24   | 10.250.0.254           | 20    | Route vers le Vlan 176             |
+| 0.0.0.0/0          | 10.250.0.253           | x     | Route par défaut                   |
+| 0.0.0.0/0          | 10.250.0.254           | x     | Route par défaut                   |
 
 
 
-**__➡️Table de routage partielle pour R2 (15 routes pertinentes)⬅️__**
+**__➡️Table de routage partielle pour R2 (7 routes pertinentes)⬅️__**
 | Réseau Destination | Next-hop              | Coût | Explication                         |
 |--------------------|:--------------------:|------|:-----------------------------------:|
 | 10.100.4.0/24     | Directement Connecté  | x    | Route vers réseau interne étudiant |
