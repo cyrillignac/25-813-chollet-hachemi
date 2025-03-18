@@ -14,10 +14,10 @@ Nous allons donc utilisé cron ou les timers systemd dans notre à la place du p
 Première version du script : 
 <a href="https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/snmp-1.sh"> script-snmp-1 
 
-Explication des options de snmpget :
--v2c → Utilisation de SNMP version 2c.
--c "$community" → Spécifie la communauté SNMP.
-"$agent_ip" "$oid" → Adresse de l’équipement et OID interrogé.
+>> Explication des options de snmpget :
+-v2c → Utilisation de SNMP version 2c.  
+-c "$community" → Spécifie la communauté SNMP.  
+"$agent_ip" "$oid" → Adresse de l’équipement et OID interrogé.  
 
 Deuxième version du script (timestamps + stockage fichier) :
 <a href="https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/snmp-2.sh"> script-snmp-2
