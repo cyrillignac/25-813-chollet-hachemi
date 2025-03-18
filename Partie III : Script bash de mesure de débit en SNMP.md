@@ -42,14 +42,20 @@ Résultat de la commande : cat throughput_int1.txt
 Format de stockage : timestamp valeur_octets (exemple : 1710212345;34499394).
 
 ## Question 19 : procédure de tests
+Voici une procedure de vérification pour s'assurer que notre code fonctionne correctement.
 
-Test récupération données snmp : 
-
-Lancer le script sur une des machines client --> le script doit récupérer une valeur et ne retourner aucune erreur
-Comparer avec la commande manuelle
-
-Vérification enregistrement dans fichier : 
-Lancer le script et vérifier que le fichier cible contienne bien des données (tail) --> le fichier contient des données
+Verfication 1 : Récupération des données SNMP  
+1) Sur B : Exécuter le script : ```./snmp-2.sh``` et ```cat throughput_int1.txt```
+2) Vérifier que la valeur recupérée est correcte et qu'aucune erreur n'est retournée.
+3) Comparer le résultat avec une exécution manuelle de la commande SNMP correspondante  
+  
+Verfication 2 : Enregistrement dans un fichier 
+1) vérifier le contenu du fichier avant le lancement du script
+2) Lancer le script
+3) Vérifier qu'une ligne à bien été ajouter à la fin sans écraser les autres lignes déjà existante.
+  
+Verfication 3 : Conrôle de l'horodatage
+1) 
 
 Vérification de l'horodatage :
 Lancer le script puis un date +%s afin de comparer les deux valeurs --> les deux valeurs ne sont différentes que de quelques secondes
@@ -57,6 +63,7 @@ Lancer le script puis un date +%s afin de comparer les deux valeurs --> les deux
 Vérification XXYY :
 Lancer le script deux fois à 30 secondes d'intervales --> les deux valeurs retournées par le script doivent être différentes et le timestamp doit avoir augmenté de 30
 
+## 
 Gestion des erreurs : 
 Lancer le script en changeant ses paramètres (à savoir l'ip de dest; le fichier de dest; avec une mauvaise communauté ...) --> doit renvoyer les erreurs apropriées à chaque fausse erreur implantée
 
