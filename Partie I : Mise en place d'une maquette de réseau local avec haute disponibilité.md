@@ -61,10 +61,12 @@ Pour que les trames venant des machines internes soient commauté jusqu'au "bon"
 
 ## Question 4.
 
-Dans notre situation, OSPF permettrait aux routeurs R1 et R2 d'échanger des informations sur les réseaux disponibles (comme 10.X.Y.0/24, 10.250.0.0/24, et 192.168.176.0/24) et de calculer les routes les plus efficaces en fonction de la topologie du réseau.
-
-L'utilisation du routage statique ne serait pas pertinente ici car elle nécessiterait une configuration manuelle des routes sur chaque routeur. Cela deviendrait rapidement complexe et peu flexible, surtout avec plusieurs VLANs (comme le Vlan 60(W), le Vlan 633, ou le Vlan 176) et des changements fréquents dans la topologie du réseau. OSPF, en revanche, s'adapte automatiquement aux changements, assurant une meilleure gestion des routes et une réduction des erreurs de configuration.
-
+Ici on a besoin du protocole OSPF pour mettre à jour la table de routage de RPROF1 en cas de défaillance de R1 ou de R2.  
+Pour les machines internes, le protocole VRRP permet de choisir automatiquement le routeur actif. Il faut que RPROF1 sache à tout moment comment joindre le réseau interne.   
+Avec du routage statique on aurait dans RPROF1 des routes :   
+S | @réseau_interne | R1-externe   
+S | @réseau_interne | R2-externe  
+Si R1 ou R2 tombait en panne on perdrait 50% des flux réseaux.
 
 # CONFIGURATION ROUTEURS & MACHINE
 
