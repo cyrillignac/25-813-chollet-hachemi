@@ -223,6 +223,7 @@ Interface #0 info:
                      Number of packets = 434
 
 ```
+## 
 
 L'objectif de cette partie est de vérifier que les compteurs d'octets associés aux interfaces permettent d'avoir une vision précise du nombre de bits entrant/sortant d'une machine. Ces compteurs d'octets accessibles en SNMP permettront donc de calculer les débits entrant/sortant d'une machine.
   
