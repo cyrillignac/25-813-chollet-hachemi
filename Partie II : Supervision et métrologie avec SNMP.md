@@ -1,6 +1,6 @@
 # Configuration de SNMPv3 dans les routeurs 
 
-```
+```bash
 813-R2(config)#do show snmp user
 
 User name: snmpuser
@@ -33,7 +33,7 @@ row status: active
 ## Question 8 :
 La commande qui nous permet de récupèrer l'objet syslocation est la suivante.
 Sur le Client : 
-```
+```bash
 [etudiant@G3-813-B ~]$ snmpget -v3 -u snmpuser -l authPriv -a SHA -A auth_pass -x AES -X crypt_pass 10.100.3.254 SNMPv2-MIB::sysLocation.0
 SNMPv2-MIB::sysLocation.0 = STRING: Data Center - Salle 121
 ```
@@ -48,7 +48,7 @@ snmp-server group SNMPv3Group v3 priv
 snmp-server community 123test123 RW
 ```
 Sur le Client : 
-```
+```bash
 [etudiant@G3-813-B ~]$ snmpget -v2c -c 123test123 10.100.3.254 SNMPv2-MIB::sysLocation.0
 SNMPv2-MIB::sysLocation.0 = STRING: Data Center - Salle 121
 ```
@@ -61,7 +61,7 @@ Capture du SNMP-GET : avec l'option -x pour avoir sous la forme d'une suite d'oc
 snmpwalk -v 2c -c 123test123 10.250.0.6 1.3.6.1.2.1.2.2.1.4.2
 
 Voici ci-dessous les trames sous la forme d'une suite d'octet
-```
+```bash
 [root@G3-813-B etudiant]# tshark -i enp0s8 -f "udp port 161" -x
 Running as user "root" and group "root". This could be dangerous.
 Capturing on 'enp0s8'
@@ -105,7 +105,7 @@ Nous pouvons mettre en forme ces 4 trames de la même manière que vue en cours 
 | 0a fa 00 06 0a 64 03 02 (Source IP: 10.250.0.6, Destination IP: 10.100.3.2) | 00 a1 a5 d9 00 3b 55 ca (Source Port: 161, Destination Port: 42457, Length: 59) | 02 01 01 (SNMP Version 2c) | 0a 31 32 33 74 65 73 74 31 32 33 (Community: 123test123) | a2 20 (Get-Response) | 02 04 50 a2 8e 4d (Request ID: 135792469) | 02 01 00 (Error Status: No Error) | 02 01 00 (Error Index: 0) | 30 12 30 10 06 0a 2b 06 01 02 01 02 02 01 04 02 (OID: 1.3.6.1.2.1.2.2.1.4.2) | 02 05 dc (Value: 1500) |
 
 Nous pouvons voir que la trame correspond bien à la théorie vue en cours.
-```
+```bash
 [root@G3-813-B etudiant]# tshark -i enp0s8 -f "udp port 161"
 Running as user "root" and group "root". This could be dangerous.
 Capturing on 'enp0s8'
@@ -120,7 +120,7 @@ On s’intéresse ici à l’affichage des informations SNMP correspondant au fo
 
 ## Question 11 : 
 La ligne du fichier de la MIB VRRP qui indique l'OID relatif de la branche VRRP par rapport à mib-2 est :
-```
+```bash
 vrrpMIB OBJECT IDENTIFIER ::= { mib-2 68 }
 ```
 ## Question 12 : 
@@ -129,7 +129,7 @@ La commande _snmpwalk -v2c -c 123test123 10.100.3.254 vrrpMIB_ échoue car  l'ob
 ## Question 13 : 
 On s'intéresse ici à la table vrrpOperTable. 
 Nous pouvons voir ci-dessous la vrrpOperTable de R2 avec les explications des 8 premières lignes. 
-```
+```bash
 [root@G3-813-B etudiant]# snmpwalk -v2c -c 123test123 10.100.3.251 1.3.6.1.2.1.68.1.3
 SNMPv2-SMI::mib-2.68.1.3.1.2.2.1 = Hex-STRING: 00 00 5E 00 01 01   ---> @Mac virtuelle de la table vvrpOperTable
 SNMPv2-SMI::mib-2.68.1.3.1.3.2.1 = INTEGER: 3     ---> l'état actuelle du routeur : 3 = Master 
@@ -157,7 +157,7 @@ Iperf utilise par défaut TCP mais peut être utilisé avec UDP. Pour ce qui est
 ## Question 15 : 
 
 Infos captées par Iperf : 
-```
+```bash
 [root@G3-813-A etudiant]# iperf3 -c 10.100.3.2 -u -b 500K
 Connecting to host 10.100.3.2, port 5201
 [  5] local 10.100.3.1 port 54508 connected to 10.100.3.2 port 5201
@@ -180,7 +180,7 @@ Connecting to host 10.100.3.2, port 5201
 ```
 
 Infos de wireshark (capinfos) :
-```
+```bash
 [root@G3-813-B etudiant]# capinfos /tmp/capture-500k-udp.pcap
 File name:           /tmp/capture-500k-udp.pcap
 File type:           Wireshark/... - pcapng
@@ -254,4 +254,8 @@ sleep 10
 M2=$(snmpget -v2c -c 123test123 -Oqv 10.100.3.254 1.3.6.1.2.1.2.2.1.16.3) # Mesure du nombre d'octets envoyés après 10 secondes
 echo "Débit sortant: $(( (M2 - M1) * 8 / 10 )) bits/s" # Calcul du débit sortant en bits par seconde
 ```
+Le .3 à la fin de l'OID correspond à la l'interface GigabitEthernet3 du routeur (interface externet au niveau du réseau 10.250.0.0/24)
 
+Grâce au script nous obtenons un débit sortant d'environ 1084451 bits/s, soit 1,10 Mbits/s
+Avec iperf3, nous avons un débit sortant d'environ 1,03 Mbits/s
+Nous obsvervons que nous obtenons des valeurs similaires via la commande snmpget et la commande iperf3
