@@ -12,48 +12,16 @@ Le processus sleep reste actif même si il n'est pas utilisé, cela consomme de 
 Nous allons donc utilisé cron ou les timers systemd dans notre à la place du processus sleep
 
 Première version du script : 
-```
-#!/bin/bash
+<a href="https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/snmp-1.sh"> script-snmp-1 
 
-# Définition des variables en dur (pour l'instant)
-oid="IF-MIB::ifHCOutOctets.3"  # OID du compteur d’octets sortants pour l’interface 3
-agent_ip="A DEFINIR"          # Adresse IP de l’équipement SNMP (exemple)
-community="public"              # Communauté SNMP
-
-# Exécution de la requête SNMP et récupération de la valeur brute
-value=$(snmpget -v2c -c "$community" -Oqv "$agent_ip" "$oid")
-
-# Affichage du résultat
-echo "$value"
-```
 Explication des options de snmpget :
 -v2c → Utilisation de SNMP version 2c.
 -c "$community" → Spécifie la communauté SNMP.
--Oqv → Affiche uniquement la valeur sans le préfixe OID et Counter64:.
 "$agent_ip" "$oid" → Adresse de l’équipement et OID interrogé.
 
 Deuxième version du script (timestamps + stockage fichier) :
+<a href="https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/snmp-2.sh"> script-snmp-2
 
-```
-#!/bin/bash
-
-# Définition des variables en dur (pour l'instant)
-oid="IF-MIB::ifHCOutOctets.3"  # OID du compteur d’octets sortants pour l’interface 3
-agent_ip="A DEFINIR"          # Adresse IP de l’équipement SNMP (exemple)
-community="public"              # Communauté SNMP
-filename="/var/log/snmp_data.log" # Fichier de stockage des données
-
-# Récupération de la valeur du compteur d’octets SNMP
-value=$(snmpget -v2c -Oqv -c "$community" "$agent_ip" "$oid")
-
-# Récupération de l’horodatage en secondes UNIX
-timestamp=$(date +%s)
-
-# Stockage des résultats dans le fichier
-echo "$timestamp\;$value" >> "$filename"
-```
-
-date +%s → Récupère l’horodatage UNIX (secondes depuis 1970).
 >> "$filename" → Ajoute la ligne à la fin du fichier sans l’écraser.
 Format de stockage : timestamp valeur_octets (exemple : 1710212345;34499394).
 
