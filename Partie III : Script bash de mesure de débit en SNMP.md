@@ -66,7 +66,7 @@ Version 3 du script : gestion des erreurs et du premier lancement :  <a href="ht
 
 
 
-## Question 20 : a revoir 
+## Question 20 : 
 
 Le problème posé par le bouclage du compteur est l'obtention lors de deux mesures successives de valeurs moins elevées au fil du temps, ce qui n'est pas logique et qui donnerait un débit négatif. Afin de corriger ce problème, on peut intégrer cette "équation" : 
 ```
