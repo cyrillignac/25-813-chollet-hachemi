@@ -7,10 +7,11 @@ if [[ $# -ne 4 ]]; then
 fi
 
 # Récupération des arguments
-agent_ip="$1"
-community="$2"
+workdir="/usr/local/bin"  #dossier de travail
+agent_ip="$1"  # Adresse IP de l'agent SNMP
+community="$2"  # Communauté SNMP v2c
 interface_id="$3"
-filename="$4"
+filename="${workdir}/$4"
 
 # Définition de l'OID SNMP
 oid="IF-MIB::ifHCOutOctets.$interface_id"  # OID pour ifHCOutOctets de l'interface donnée
