@@ -108,3 +108,10 @@ Je rappelle l'adresse IP de la machine hébergeant les scripts est : 10.100.3.2/
 Avec comme mot de passe l'identifiant Universitaire d'Emeline.  
 
 ## Question 22 : Script Générique 
+Version du script : Générique    
+<a href="https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/snmp_generic.sh"> script-snmp_generic  
+
+Ainsi dans le cron nous avons rajouté la ligne suivante :   
+```
+* * * * * /usr/local/bin/snmp_generic.sh 10.100.3.254 123test123 3 throughput_int3.txt >> /var/log/snmp/monitoring.log 2>&1
+```  
