@@ -66,7 +66,7 @@ Version 3 du script : gestion des erreurs et du premier lancement :  <a href="ht
 
 
 
-##Question 20 : 
+## Question 20 : a revoir 
 
 Le problème posé par le bouclage du compteur est l'obtention lors de deux mesures successives de valeurs moins elevées au fil du temps, ce qui n'est pas logique et qui donnerait un débit négatif. Afin de corriger ce problème, on peut intégrer cette "équation" : 
 ```
@@ -74,39 +74,37 @@ diff_mesure = (MAX_COUNTER - valeur_précédente) + valeur_actuelle
 ```
 la valeur MAX_COUNTER représente la valeur maximale que le compteur peut recevoir (2^32 pour le compteur a 32 bits et 2^64 pour celui à 64)
 Afin d'obtenir une deuxième valeur précise, on va soustraire à la valeur maximale du compteur la valeur de notre mesure précédente, puis y ajouter la valeur actuelle après bouclage, ce qui nous donnera un résultat exact. 
+  
+Version du script : rebouclage    
+<a href="https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/snmp-4.sh"> script-snmp-4-rebouclage
 
-dans le script ??
+## Question 21 : Utilisation de Cron 
+Dans cette partie nous allons mettre en place Cron pour executer notre script toutes les minutes. 
 
-```
-max_counter=$((2**64))  # Pour un compteur 64 bits
-#max_counter=$((2**32)) # pour un compteur 32 bits
-
-if [[ "$current_value" -lt "$last_value" ]]; then
-    # Gestion du rebouclage
-    byte_diff=$(( (max_counter - last_value) + current_value ))
-else
-    byte_diff=$((current_value - last_value))
-fi
-```
-
-EXECUTION VIA CRON :
-```
-sudo mv snmp-monitor.sh /usr/local/bin/snmp-monitor.sh
-sudo chmod +x /usr/local/bin/snmp-monitor.sh  # Rendre exécutable
-```
+Dans un premier temps nous avons déplacé notre script snmp-4.sh dans le dossier : /usr/local/bin/  
+Dans un second temps nous avons créé un fichier ```monitoring.log``` pour stocker nos log dans le dossier : /var/log/snmp/  
+Puis nous avons crée un cron à l'aide de la commande suivante :
 ```
 crontab -e
+```  
+Dans le fichier cron nous avons mis la ligne suivante   
 ```
-```
-* * * * * /usr/local/bin/snmp-monitor.sh >> /var/log/snmp_monitor.log 2>&1
-```
+* * * * * /usr/local/bin/snmp-4.sh >> /var/log/snmp/monitoring.log 2>&1
+```  
+Explication   
+```"* * * * *"``` rend le fichier executable toutes les minutes ;  
+```"/usr/local/bin/snmp-monitor.sh"``` chemin absolu du script ;  
+```">> /var/log/snmp_monitor.log"``` sors les resultats dans le fichier de log ;  
+```"2>&1"``` stocke les erreurs vers le fichier de log ;  
 
-```"* * * * *"``` rend le fichier executable toutes les minutes ;
-```"/usr/local/bin/snmp-monitor.sh"``` chemin absolu du script ;
-```">> /var/log/snmp_monitor.log"``` sors les resultats dans le fichier de log ;
-```"2>&1"``` stocke les erreurs vers le fichier de log ;
+Phase de vérification :  Nous faisons les commandes suivantes : 
 
-```crontab -l``` pour vérifier que le script est bien en execution, on doit avoir notre ligne ajoutée ;
+```crontab -l``` pour vérifier que le script est bien en execution, on doit avoir notre ligne ajoutée.    
 
-```tail -f /var/log/snmp_monitor.log``` pour vérifier les lignes de log en temps réel ;
+```tail -f /var/log/snmp_monitor.log``` pour vérifier les lignes de log en temps réel.  
 
+Tous ces opérations ont été faites en sudo.  
+Je rappelle l'adresse IP de la machine hébergeant les scripts est : 10.100.3.2/24 ou 172.29.253.25/24 sur le serv21   
+Avec comme mot de passe l'identifiant Universitaire d'Emeline.  
+
+## Question 22 : Script Générique 
