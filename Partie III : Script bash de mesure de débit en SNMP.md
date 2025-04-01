@@ -105,7 +105,7 @@ Phase de vérification :  Nous faisons les commandes suivantes :
 
 Tous ces opérations ont été faites en sudo.  
 Je rappelle l'adresse IP de la machine hébergeant les scripts est : 10.100.3.2/24 ou 172.29.253.25/24 sur le serv21   
-Avec comme mot de passe l'identifiant Universitaire d'Emeline.  
+Avec comme mot de passe : password.  
 
 ## Question 22 : Script Générique 
 Version du script : Générique    
