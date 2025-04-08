@@ -11,57 +11,6 @@ Prometheus est devenu un standard dans le monitoring des architectures modernes,
 
 
 
-Mise en place de prometheus 
-
-Sur B : 
-Installation Docker et Docker compose : 
-```sudo dnf install -y docker-compose ```
-
-```bash
-mkdir -p ~/prometheus/{data,config}
-cd ~/prometheus
-```
-
-Dans ~/prometheus/config/prometheus/yml  
-```yaml 
-global:
-  scrape_interval: 15s  # Fréquence de collecte des métriques
-
-scrape_configs:
-  - job_name: "prometheus"
-    static_configs:
-      - targets: ["localhost:9090"]
-  - job_name: "node-exporter"
-    static_configs:
-      - targets: ["node-exporter:9100"]
-
-```
-
-Dans ~/prometheus  
-```
-version: '3.8'
-services:
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
-    restart: unless-stopped
-    volumes:
-      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./data:/prometheus
-    ports:
-      - "80:9090"
-```
-faire la commande suivante pour lancer le conteneur : 
-```
-docker compose up -d
-```
-Pour voir l'interface de prometheus nous pouvons se rendre à l'adresse 192.268.141.185 sur le port 80
-
-
-
-
-
-
 
 
 
