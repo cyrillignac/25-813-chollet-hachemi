@@ -10,7 +10,17 @@ Prometheus est devenu un standard dans le monitoring des architectures modernes,
 
 
 
-
+L'arborescence final des fichiers de configuration de Prometheus et de Grafana est la suitante :    
+.  
+├── config  
+│   └── prometheus.yml  
+├── data  
+├── docker-compose.yml  
+├── grafana  
+├── snmp  
+│   └── snmp.yml  
+  
+Pour voir l'interface de prometheus nous pouvons se rendre à l'adresse 192.268.141.185 sur le port 80
 
 
 
