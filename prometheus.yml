@@ -1,0 +1,32 @@
+# ~/prometheus/config/prometheus.yml  
+global:
+  scrape_interval: 15s  # Fréquence de collecte des métriques
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["192.168.141.185:9090"]
+  - job_name: "node-exporter"
+    static_configs:
+      - targets: ["node-exporter:9100"]
+  - job_name: 'snmp'
+    metrics_path: /snmp
+    params:
+      module: [if_mib]
+    static_configs:
+      - targets: ['10.100.3.251','10.100.3.252']  # Remplace avec l'IP de ton équipement SNMP
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 192.168.141.185:80
+
+
+
+
+
+
+
+
