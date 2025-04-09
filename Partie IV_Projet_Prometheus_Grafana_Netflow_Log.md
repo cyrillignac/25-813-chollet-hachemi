@@ -96,5 +96,5 @@ Des tests ont été menés pour valider la bonne récupération des données SNM
 ### Conclusion
 L’intégration de Prometheus avec Grafana, combinée au `snmp_exporter`, fournit une solution robuste, modulaire et extensible pour la supervision réseau. Elle permet de visualiser en temps réel les performances des routeurs, détecter les anomalies, suivre les pannes, et exploiter efficacement les données SNMP. Ce système offre une base solide pour une surveillance proactive et automatisée d’une infrastructure réseau.
 
-
-
+  
+#### _Validation IX_
