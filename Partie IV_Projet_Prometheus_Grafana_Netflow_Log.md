@@ -27,7 +27,7 @@ L'arborescence final des fichiers de configuration de Prometheus et de Grafana e
 
 
 Pour voir l'interface de snmp-exporter nous pouvons se rendre à l'adresse http://192.168.141.185:80  
-Pour voir l'interface de grafana nous pouvons se rendre à l'adresse http://192.168.141.185:443  
+Pour voir l'interface de grafana nous pouvons se rendre à l'adresse http://192.168.141.185:443 dans le Dashboard SNMP Stats  
 Pour voir l'interface de prometheus nous pouvons se rendre à l'adresse http://192.168.141.185:9090  
 
 
@@ -54,6 +54,8 @@ Nous pouvons voir sur cette capture que notre grafana nous remonte bien un débi
 ![image](https://github.com/user-attachments/assets/5fcadb13-12cc-41c7-b7b8-b8738b0e25b9)
 
 #### _Validation VIII_
+## Classement débit / VRRP
+Pour cette partie, nous pouvons voir le classements des débits et certaines données des VRRP sur le Dashboard à l'adresse suivante : http://192.168.141.185:443/dashboards 
 
 ## Synthèse technique de Prometheus et des outils liés
 
