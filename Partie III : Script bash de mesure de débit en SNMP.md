@@ -104,7 +104,7 @@ Phase de vérification :  Nous faisons les commandes suivantes :
 ```tail -f /var/log/snmp_monitor.log``` pour vérifier les lignes de log en temps réel.  
 
 Tous ces opérations ont été faites en sudo.  
-Je rappelle l'adresse IP de la machine hébergeant les scripts est : 10.100.3.2/24 ou 172.29.253.25/24 sur le serv21   
+Je rappelle l'adresse IP de la machine hébergeant les scripts est : 192.168.141.185 ou 172.29.253.25/24 sur le serv21   
 Avec comme mot de passe : password.  
 
 ## Question 22 : Script Générique 
