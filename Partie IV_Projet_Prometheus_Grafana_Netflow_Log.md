@@ -98,3 +98,38 @@ L’intégration de Prometheus avec Grafana, combinée au `snmp_exporter`, fourn
 
   
 #### _Validation IX_
+
+
+
+```bash
+[root@G3-813-A webserver]# curl localhost:8080/page1.html
+<!DOCTYPE html>
+<html>
+<head><title>Page 1</title></head>
+<body>
+<h1>This is Page 1</h1>
+<a href="/">Back to Home</a>
+</body>
+</html>
+
+[root@G3-813-A webserver]# curl localhost:8080/page2.html
+<!DOCTYPE html>
+<html>
+<head><title>Page 2</title></head>
+<body>
+<h1>This is Page 2</h1>
+<a href="/">Back to Home</a>
+</body>
+</html>
+
+[root@G3-813-A webserver]# curl localhost:8080
+<!DOCTYPE html>
+<html>
+<head><title>Home Page</title></head>
+<body>
+<h1>Welcome to the Home Page</h1>
+<a href="/page1.html">Go to Page 1</a><br>
+<a href="/page2.html">Go to Page 2</a>
+</body>
+```
+
