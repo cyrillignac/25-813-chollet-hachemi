@@ -15,20 +15,20 @@ Grâce à son interface web intuitive, Grafana facilite la surveillance des perf
 En résumé, Grafana est un outil puissant, flexible et esthétique, idéal pour transformer des données brutes en tableaux de bord clairs et exploitables.  
 
 #  
-L'arborescence final des fichiers de configuration de Prometheus et de Grafana est la suitante :    
+L'arborescence final des fichiers de configuration de Prometheus et de Grafana sur la machine B est la suitante :~/prometheus    
 .  
 ├── config  
 │   └── [prometheus.yml](https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/prometheus.yml)    
 ├── data  
-├── [docker-compose.yml](https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/docker-compose.yml)       
+├── [docker-compose.yml](https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/docker-compose_MachineB.yml)       
 ├── grafana  
 ├── snmp  
 │   └── [snmp.yml](https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/snmp.yml)  
 
 
-Pour voir l'interface de snmp-exporter nous pouvons se rendre à l'adresse http://192.168.141.185:80  
+Pour voir l'interface de snmp-exporter nous pouvons se rendre à l'adresse http://192.168.141.185:9116  
 Pour voir l'interface de grafana nous pouvons se rendre à l'adresse http://192.168.141.185:443 dans le Dashboard SNMP Stats  
-Pour voir l'interface de prometheus nous pouvons se rendre à l'adresse http://192.168.141.185:9090  
+Pour voir l'interface de prometheus nous pouvons se rendre à l'adresse http://192.168.141.185:80  
 
 
 ## Test mis en place 
@@ -101,37 +101,28 @@ L’intégration de Prometheus avec Grafana, combinée au `snmp_exporter`, fourn
   
 #### _Validation IX_
 
+Après avoir mis en place un serveur nginx pour mettre en place des pages web. Ces pages web sont supérivisée à l'aide de Prometheus via node-exporter (la passerelle). Et nous avons une supervision graphique avec Grafana.
+
+L'arborescence final des fichiers de configuration de la partie sur la machine A est la suitante :~/webserver    
+.  
+├── [docker-compose.yml](https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/docker-compose_MachineA.yml)   
+├── [nginx.conf](https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/nginx.conf)  
+├── [test_web](https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/test_web.sh)  
+└── website    
+│   ├── [index.html](https://github.com/cyrillignac/25-813-chollet-hachemi/main/index_web.html)  
+│   ├── [page1.html](https://github.com/cyrillignac/25-813-chollet-hachemi/main/page1.html)  
+│   └── [page2.html](https://github.com/cyrillignac/25-813-chollet-hachemi/main/page2.html)
 
 
-```bash
-[root@G3-813-A webserver]# curl localhost:8080/page1.html
-<!DOCTYPE html>
-<html>
-<head><title>Page 1</title></head>
-<body>
-<h1>This is Page 1</h1>
-<a href="/">Back to Home</a>
-</body>
-</html>
 
-[root@G3-813-A webserver]# curl localhost:8080/page2.html
-<!DOCTYPE html>
-<html>
-<head><title>Page 2</title></head>
-<body>
-<h1>This is Page 2</h1>
-<a href="/">Back to Home</a>
-</body>
-</html>
+Voici la procédure qui permet de vérifier que le serveur web fonctionne. 
+- Vérifier que le serveur web retourne bien les 3 pages :
+   - Lancer un script qui vérifie que le "http code " d'un curl des pages soit 200 : [test-page-web](https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/test_web.sh)
+- Vérfier que Prometheus collecte bien les informations des targets :
+    - Aller à l'adresse :  http://192.168.141.185/
+    - Aller dans l'onglet Status -> Target
+    - Regarder la target web-pages : il faut que le status soit "UP"
+- Créer un dashboard simple avec up{job="web_server"} dans Grafana et le dashboard affiche bien des données.
 
-[root@G3-813-A webserver]# curl localhost:8080
-<!DOCTYPE html>
-<html>
-<head><title>Home Page</title></head>
-<body>
-<h1>Welcome to the Home Page</h1>
-<a href="/page1.html">Go to Page 1</a><br>
-<a href="/page2.html">Go to Page 2</a>
-</body>
-```
+
 
