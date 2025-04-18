@@ -4,8 +4,7 @@
 
 ## 2. Etude théorique préparatoire 
 
- ### Question 1.
- 
+ ### **Question 1**
 En supposant que chaque sous-réseau est accessible via un routeur différent, chaque routeur aura une entrée pour chaque sous-réseau, y compris les routes par défaut et les routes vers les réseaux directement connectés.
 Nous avons 47 routes présentes dans R1 et R2.
 - x10 : sous-réseau des autres étudiants + profs ( le réseau interne est accessible via 2 chemins aquidistants => 20 lignes pour chaque réseau interne
@@ -51,8 +50,7 @@ débit_reference = 10 Gbits/s
 
 Ces tables de routage partielle incluent les routes directement connectées, les routes vers les autres réseaux internes, et les routes par défaut.
 
-### Question 2.
-
+### Question 2
 Le protocole VRRP (Virtual Router Redundancy Protocol) permet de créer un routeur virtuel en regroupant plusieurs routeurs physiques, assurant une redondance et une haute disponibilité. Il attribue une adresse IP virtuelle partagée par les routeurs, qui sert de passerelle par défaut pour des machines d'un réseau local. En cas de défaillance d'un routeur, un autre routeur du groupe prend automatiquement le relais, garantissant une continuité de service sans interruption. Cela améliore la fiabilité du réseau en évitant les points de défaillance uniques.
 
 ### Question 3.
@@ -64,7 +62,6 @@ Avec cette adresse MAC virtuelle, les machines internes utilisent forcément le 
 Pour que les trames venant des machines internes soient commauté jusqu'au "bon" routeur, il faut mettre à jou les tables de comutation de tous les switchs du réseau local. Pour cela, lorsqu"un routeur devient actif VRRP, il envoie une trame en broadcast avec comme adresse MAC-source l'adresse MAC virtuelle.
 
 ### Question 4.
-
 Ici on a besoin du protocole OSPF pour mettre à jour la table de routage de RPROF1 en cas de défaillance de R1 ou de R2.  
 Pour les machines internes, le protocole VRRP permet de choisir automatiquement le routeur actif. Il faut que RPROF1 sache à tout moment comment joindre le réseau interne.   
 Avec du routage statique on aurait dans RPROF1 des routes :   
@@ -92,13 +89,11 @@ Sur R1 : ping 10.250.0.254
 -> ping OK   
 
 ### Question 6.
-
-### Tests OSPF
+Tests OSPF
 Pour tester la mise en place de OSPF nous allons tester la connectivité à internet :  
 Sur A : ping 8.8.8.8
   
 ### Question 7.
-
 Nos tests visent à démontrer que la transmission du rôle de Master entre les deux routeurs se passe comme prévu.
 
 Scénario prévu : R1 est Master, et tombe. R2 Prend le relais et devient master.
