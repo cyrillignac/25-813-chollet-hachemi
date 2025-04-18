@@ -56,10 +56,10 @@ Le protocole VRRP (Virtual Router Redundancy Protocol) permet de créer un route
 ### Question 3.
 Les routeurs vont se partager une adresse IP qualifiée de virtuelle. C'est cette adresse IP qui est configurée comme passerelle pardéfaut sur A et B.  
 A un instant l'adresse IP virutelle est associée uniquiement à l'un des 2 routeurs, le routeur actif VRRP.  
-Lorsqu'une machine interne (A ou B) veut envoyer une trame à l'exterieur, elle va émettre une requête ARP, seul le routeur assciée à l'adresse IP virtuelle y réonpondra et acheminera les paquets.  
+Lorsqu'une machine interne (A ou B) veut envoyer une trame à l'exterieur, elle va émettre une requête ARP, seul le routeur associée à l'adresse IP virtuelle y répondra et acheminera les paquets.  
 Dans le cas de VRRP, les routeurs partagent en plus de l'adresse IP virtuelle, une adresse MAC virtuelle. Ainsi dans le cache ARP des machines on aura toujours la même association : @ip_vituelle => @MAC vituelle   
 Avec cette adresse MAC virtuelle, les machines internes utilisent forcément le bon routeur VRRP.  
-Pour que les trames venant des machines internes soient commauté jusqu'au "bon" routeur, il faut mettre à jou les tables de comutation de tous les switchs du réseau local. Pour cela, lorsqu"un routeur devient actif VRRP, il envoie une trame en broadcast avec comme adresse MAC-source l'adresse MAC virtuelle.
+Pour que les trames venant des machines internes soient commuté jusqu'au "bon" routeur, il faut mettre à jour les tables de commutation de tous les switchs du réseau local. Pour cela, lorsqu'un routeur devient actif VRRP, il envoie une trame en broadcast avec comme adresse MAC-source l'adresse MAC virtuelle.
 
 ### Question 4.
 Ici on a besoin du protocole OSPF pour mettre à jour la table de routage de RPROF1 en cas de défaillance de R1 ou de R2.  
@@ -68,6 +68,8 @@ Avec du routage statique on aurait dans RPROF1 des routes :
 S | @réseau_interne | R1-externe   
 S | @réseau_interne | R2-externe  
 Si R1 ou R2 tombait en panne on perdrait 50% des flux réseaux.
+
+### Validation I 
 
 ## 3. CONFIGURATION ROUTEURS & MACHINE
 Ici nous allons mettre en place et configurer A et R1. Les machines vituelles nous ont été données. 
@@ -153,3 +155,5 @@ comportement prévu : ping réussi.
 
 On remet l'interface active et on vérifie que tout continue de fonctionner.   
 Il faut également testet lorsqu'on désactive l'interface externe du routeur actif. Dans cette configuration si A veut ping 8.8.8.8, R1 va communiquer avec R2 et R2 vers l'exterieur. 
+
+### Validation II
