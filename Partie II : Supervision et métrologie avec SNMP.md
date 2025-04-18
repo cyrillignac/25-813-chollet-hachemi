@@ -268,3 +268,5 @@ Le .3 à la fin de l'OID correspond à la l'interface GigabitEthernet3 du routeu
 Grâce au script nous obtenons un débit sortant d'environ 1084451 bits/s, soit 1,10 Mbits/s
 Avec iperf3, nous avons un débit sortant d'environ 1,03 Mbits/s.  
 Nous observons que les valeurs obtenues via la commande snmpget et iperf3 sont similaires.
+
+### Validation V
