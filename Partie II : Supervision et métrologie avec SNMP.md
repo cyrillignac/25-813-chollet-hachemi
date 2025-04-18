@@ -59,14 +59,14 @@ Sur le Client :
 SNMPv2-MIB::sysLocation.0 = STRING: Data Center - Salle 121
 ```
 ### Question 9 
-SNMP est encoder grâce au mécanisme BER(Basic Encoding Rules).
+SNMP est encodé grâce au mécanisme BER(Basic Encoding Rules).
 
 ### Question 10 : 
 Nous avons faire une capture du SNMP-GET sur la deuxième interface du routeur R2.
 Capture du SNMP-GET : avec l'option -x pour avoir sous la forme d'une suite d'octet 
-snmpwalk -v 2c -c 123test123 10.250.0.6 1.3.6.1.2.1.2.2.1.4.2
+snmpwalk -v 2c -c 123test123 10.250.0.6 1.3.6.1.2.1.2.2.1.4.2  
 
-Voici ci-dessous les trames sous la forme d'une suite d'octet
+Voici ci-dessous les trames sous la forme d'une suite d'octet :  
 ```bash
 [root@G3-813-B etudiant]# tshark -i enp0s8 -f "udp port 161" -x
 Running as user "root" and group "root". This could be dangerous.
@@ -101,7 +101,7 @@ Capturing on 'enp0s8'
 
 
 ```
-Nous pouvons mettre en forme ces 4 trames de la même manière que vue en cours pour pouvoir comprarer avec les résultats vue en cours.
+Nous pouvons mettre en forme ces 4 trames de la même manière que vue en cours pour pouvoir comprarer avec les résultats vue en cours.  
 
 | En-tête IP | En-tête UDP | Version | Communauté | PDU | Identificateur de requête | Status d'erreur | Index d'erreur | Nom | Valeur |
 |------------|-------------|---------|------------|-----|----------------------------|-----------------|----------------|-----|--------|
@@ -110,7 +110,7 @@ Nous pouvons mettre en forme ces 4 trames de la même manière que vue en cours 
 | 0a 64 03 02 0a fa 00 06 (Source IP: 10.100.3.2, Destination IP: 10.250.0.6) | a5 d9 00 a1 00 39 18 b0 (Source Port: 42457, Destination Port: 161, Length: 57) | 02 01 01 (SNMP Version 2c) | 0a 31 32 33 74 65 73 74 31 32 33 (Community: 123test123) | a0 1e (Get-Request) | 02 04 50 a2 8e 4d (Request ID: 135792469) | 02 01 00 (Error Status: No Error) | 00 (Error Index: 0) | 0a 2b 06 01 02 01 02 02 01 04 02 (OID: 1.3.6.1.2.1.2.2.1.4.2) | 05 00 (Value: Null) |
 | 0a fa 00 06 0a 64 03 02 (Source IP: 10.250.0.6, Destination IP: 10.100.3.2) | 00 a1 a5 d9 00 3b 55 ca (Source Port: 161, Destination Port: 42457, Length: 59) | 02 01 01 (SNMP Version 2c) | 0a 31 32 33 74 65 73 74 31 32 33 (Community: 123test123) | a2 20 (Get-Response) | 02 04 50 a2 8e 4d (Request ID: 135792469) | 02 01 00 (Error Status: No Error) | 00 (Error Index: 0) | 0a 2b 06 01 02 01 02 02 01 04 02 (OID: 1.3.6.1.2.1.2.2.1.4.2) | 02 05 dc (Value: 1500) |
 
-Nous pouvons voir que la trame correspond bien à la théorie vue en cours.
+Nous pouvons voir que la trame correspond bien à la théorie vue en cours.  
 ```bash
 [root@G3-813-B etudiant]# tshark -i enp0s8 -f "udp port 161"
 Running as user "root" and group "root". This could be dangerous.
@@ -123,9 +123,9 @@ Capturing on 'enp0s8'
 ```
 
 On s’intéresse ici à l’affichage des informations SNMP correspondant au fonctionnement de VRRP.
-
+  
 ### Question 11 : 
-La ligne du fichier de la MIB VRRP qui indique l'OID relatif de la branche VRRP par rapport à mib-2 est :
+La ligne du fichier de la MIB VRRP qui indique l'OID relatif de la branche VRRP par rapport à mib-2 est :  
 ```bash
 vrrpMIB OBJECT IDENTIFIER ::= { mib-2 68 }
 ```
@@ -133,8 +133,8 @@ vrrpMIB OBJECT IDENTIFIER ::= { mib-2 68 }
 La commande ```_snmpwalk -v2c -c 123test123 10.100.3.254 vrrpMIB_ ```échoue car  l'objet vrrpMIB que nous tentons d'interroger via SNMP n'est pas trouvé dans la base de données MIB du périphérique cible (ici 10.100.3.254 : l'interface interne du routeur).
 
 ### Question 13 : 
-On s'intéresse ici à la table vrrpOperTable. 
-Nous pouvons voir ci-dessous la vrrpOperTable de R2 avec les explications des 8 premières lignes. 
+On s'intéresse ici à la table vrrpOperTable.  
+Nous pouvons voir ci-dessous la vrrpOperTable de R2 avec les explications des 8 premières lignes.  
 ```bash
 [root@G3-813-B etudiant]# snmpwalk -v2c -c 123test123 10.100.3.251 1.3.6.1.2.1.68.1.3
 SNMPv2-SMI::mib-2.68.1.3.1.2.2.1 = Hex-STRING: 00 00 5E 00 01 01   ---> @Mac virtuelle de la table vvrpOperTable
@@ -154,18 +154,18 @@ SNMPv2-SMI::mib-2.68.1.3.1.15.2.1 = INTEGER: 1
 ```
 ### Validation IV  
 ## 3. Métrologie
-On s'intéresse dans cette partie aux possibilités offertes par SNMP pour faire de la métrologie. On se focalisera sur la mesure du débit et notamment sur la précision de cette mesure.
+On s'intéresse dans cette partie aux possibilités offertes par SNMP pour faire de la métrologie. On se focalisera sur la mesure du débit et notamment sur la précision de cette mesure.  
 
 ### Question 14 : 
-Après avoir mis en place iperf sur nos deux machines Linux A et B. 
-Sur B nous avons lancé la commande ``` iperf3 -s``` en mode serveur 
-Sur A nous avons lancé la commande ``` iperf3 -C 10.100.3.2``` en mode client
-Nous pouvons voir que Iperf utilise par défaut TCP mais peut être utilisé avec UDP (avec l'option -u). Le temps de test est de 10 secondes par défaut, mais il peut être modifié (avec l'option -t).
+Après avoir mis en place iperf sur nos deux machines Linux A et B.  
+Sur B nous avons lancé la commande ``` iperf3 -s``` en mode serveur.  
+Sur A nous avons lancé la commande ``` iperf3 -C 10.100.3.2``` en mode client.  
+Nous pouvons voir que Iperf utilise par défaut TCP mais peut être utilisé avec UDP (avec l'option -u). Le temps de test est de 10 secondes par défaut, mais il peut être modifié (avec l'option -t).  
 
 ### Question 15 : 
-Les différences de mesures trouvées entre l'utilisation de l'outil Iperf et Capinfos peuvent provenir de la manière de traiter la donnée (la prise en compte des entêtes udp ou non), de la manière de capturer les trames et de les traiter (les traiter au fur et à mesure ou après la capture), ou bien encore la prise en compte des retransmissions quand certains paquets échouent. 
+Les différences de mesures trouvées entre l'utilisation de l'outil Iperf et Capinfos peuvent provenir de la manière de traiter la donnée (la prise en compte des entêtes udp ou non), de la manière de capturer les trames et de les traiter (les traiter au fur et à mesure ou après la capture), ou bien encore la prise en compte des retransmissions quand certains paquets échouent.  
   
-Voici ci-dessous un Iperf lancé vers la machine B sur la machine A :  
+Voici ci-dessous un Iperf lancé vers la machine B sur la machine A :   
 ```bash
 [root@G3-813-A etudiant]# iperf3 -c 10.100.3.2 -u -b 500K
 Connecting to host 10.100.3.2, port 5201
@@ -188,7 +188,7 @@ Connecting to host 10.100.3.2, port 5201
 
 ```
 
-Capture wireshark (capinfos) prise sur l'interface 2 de la machine B (vers le routeur) :
+Capture wireshark (capinfos) prise sur l'interface 2 de la machine B (vers le routeur) :  
 ```bash
 [root@G3-813-B etudiant]# capinfos /tmp/capture-500k-udp.pcap
 File name:           /tmp/capture-500k-udp.pcap
@@ -234,7 +234,7 @@ L'objectif de cette partie est de vérifier que les compteurs d'octets associés
   
 ### Question 16 :
 
-Il est préferable d'utiliser les compteurs d'octets en version 32bits si notre débit sur nos interfaces est inférieur à 10 Mbits/s et si notre équipement ne support pas le SNMPv2c ou SNMPv3
+Il est préferable d'utiliser les compteurs d'octets en version 32bits si notre débit sur nos interfaces est inférieur à 10 Mbits/s et si notre équipement ne support pas le SNMPv2c ou SNMPv3.
 
 Il est préférable d'utiliser les compteurs d'octets en version 64bits si notre débit sur nos interfaces est supérieur à 100 Mbits/s. Cela évite les problèmes de dépassement si le polling SNMP dépasse 30 secondes, et garantit une mesure fiable.
 
@@ -255,7 +255,7 @@ La machine B (ancienne IP : 10.100.3.2) est actuellement sur le VLAN 140 et a po
 Sur B, lancer la commande ``` ipfer3 -s ``` pour mettre la machine en mode écoute.     
 Sur A, lancer la commande ``` iperf3 -C 192.168.141.35 -t 30 -b 1M ```. Ici l'option ```-t``` permet de générer un flux pendant 30 secondes.  
   
-Sur A, lancer le script ci-dessous ("script_q17_debit_sortant.sh"), qui mesure le débit sortant.
+Sur A, lancer le script ci-dessous ("[script_q17_debit_sortant.sh]("https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/script_q17_debit_sortant.sh")"), qui mesure le débit sortant.  
 
 ```bash
 M1=$(snmpget -v2c -c 123test123 -Oqv 10.100.3.254 1.3.6.1.2.1.2.2.1.16.3) # Mesure du nombre d'octets envoyés
