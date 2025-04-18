@@ -1,6 +1,10 @@
+# Partie I : Mise en place d'une maquette de réseau local avec haute disponibilité
+## 1. Schéma du réseau 
 ![Schema_réseau](https://github.com/user-attachments/assets/5e61bb51-a505-4fce-84ee-2fad75b33793)
 
- ## Question 1.
+## 2. Etude théorique préparatoire 
+
+ ### Question 1.
  
 En supposant que chaque sous-réseau est accessible via un routeur différent, chaque routeur aura une entrée pour chaque sous-réseau, y compris les routes par défaut et les routes vers les réseaux directement connectés.
 Nous avons 47 routes présentes dans R1 et R2.
@@ -47,11 +51,11 @@ débit_reference = 10 Gbits/s
 
 Ces tables de routage partielle incluent les routes directement connectées, les routes vers les autres réseaux internes, et les routes par défaut.
 
-## Question 2.
+### Question 2.
 
 Le protocole VRRP (Virtual Router Redundancy Protocol) permet de créer un routeur virtuel en regroupant plusieurs routeurs physiques, assurant une redondance et une haute disponibilité. Il attribue une adresse IP virtuelle partagée par les routeurs, qui sert de passerelle par défaut pour des machines d'un réseau local. En cas de défaillance d'un routeur, un autre routeur du groupe prend automatiquement le relais, garantissant une continuité de service sans interruption. Cela améliore la fiabilité du réseau en évitant les points de défaillance uniques.
 
-## Question 3.
+### Question 3.
 Les routeurs vont se partager une adresse IP qualifiée de virtuelle. C'est cette adresse IP qui est configurée comme passerelle pardéfaut sur A et B.  
 A un instant l'adresse IP virutelle est associée uniquiement à l'un des 2 routeurs, le routeur actif VRRP.  
 Lorsqu'une machine interne (A ou B) veut envoyer une trame à l'exterieur, elle va émettre une requête ARP, seul le routeur assciée à l'adresse IP virtuelle y réonpondra et acheminera les paquets.  
@@ -59,7 +63,7 @@ Dans le cas de VRRP, les routeurs partagent en plus de l'adresse IP virtuelle, u
 Avec cette adresse MAC virtuelle, les machines internes utilisent forcément le bon routeur VRRP.  
 Pour que les trames venant des machines internes soient commauté jusqu'au "bon" routeur, il faut mettre à jou les tables de comutation de tous les switchs du réseau local. Pour cela, lorsqu"un routeur devient actif VRRP, il envoie une trame en broadcast avec comme adresse MAC-source l'adresse MAC virtuelle.
 
-## Question 4.
+### Question 4.
 
 Ici on a besoin du protocole OSPF pour mettre à jour la table de routage de RPROF1 en cas de défaillance de R1 ou de R2.  
 Pour les machines internes, le protocole VRRP permet de choisir automatiquement le routeur actif. Il faut que RPROF1 sache à tout moment comment joindre le réseau interne.   
@@ -68,10 +72,10 @@ S | @réseau_interne | R1-externe
 S | @réseau_interne | R2-externe  
 Si R1 ou R2 tombait en panne on perdrait 50% des flux réseaux.
 
-# CONFIGURATION ROUTEURS & MACHINE
-Ici nous allons mettre en place et configurer A et R1
+## 3. CONFIGURATION ROUTEURS & MACHINE
+Ici nous allons mettre en place et configurer A et R1. Les machines vituelles nous ont été données. 
 
-## Question 5.
+### Question 5.
 Pour tester le fonctionnement du réseau mise en place jusqu'à maitenant.  
 Sur A :  
 Ping R1 : ping 10.250.0.5  
@@ -87,13 +91,13 @@ Sur R1 : ping 10.250.0.253
 Sur R1 : ping 10.250.0.254  
 -> ping OK   
 
-## Question 6.
+### Question 6.
 
 ### Tests OSPF
 Pour tester la mise en place de OSPF nous allons tester la connectivité à internet :  
 Sur A : ping 8.8.8.8
   
-## Question 7.
+### Question 7.
 
 Nos tests visent à démontrer que la transmission du rôle de Master entre les deux routeurs se passe comme prévu.
 
