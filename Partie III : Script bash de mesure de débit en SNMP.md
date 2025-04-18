@@ -1,16 +1,13 @@
-# Script bash de mesure de débit en SNMP
-Durant cette partie nous allons devoir développer un script Bash qui permet de mesurer les débits des flux entrant ou sortant d’un équipement. 
-Par exemple, notre script doit permettre de connaître le débit sortant d'une interface d'un routeur, avec un relevé effectué toutes les minutes sur une très longue période.
-Les mesures de débit sont stokées dans un fichier.
-
-On fixe comme prériodicité minimale de la mesure 1 minutes et comme périodicité maximale 30 mintutes.
-Nous allons écrire un script sur la machine linux.
+# Partie III : Script bash de mesure de débit en SNMP
+Durant cette partie, nous allons devoir développer un script Bash qui permet de mesurer les débits des flux entrants ou sortants d’un équipement.  
+Par exemple, notre script doit permettre de connaître le débit sortant d'une interface d'un routeur, avec un relevé effectué toutes les minutes sur une très longue période. Les mesures de débit sont stockées dans un fichier.  
+On fixe comme périodicité minimale de la mesure 1 minute, et comme périodicité maximale 30 minutes. Nous allons écrire un script sur la machine Linux.  
 
 ### Question 18 : 
 La fonction sleep est un processus qui reste en cours d'exécution en arrière-plan. Si le processus est tué ou si le système redémarre, le script ne redémarrera pas automatiquement, contrairement à cron ou systemd
 Le processus sleep reste actif même si il n'est pas utilisé, cela consomme de la mémoire et du CPU. Contrairement au job cron ou un timer systemd, ne lance le script que lorsqu'il est nécessaire.
 
-Nous allons donc utilisé cron ou les timers systemd dans notre à la place du processus sleep
+Nous allons donc utiliser cron ou les timers systemd dans notre cas à la place du processus sleep
 
 ## 1. Récupération du compteur d'octets
 
@@ -59,7 +56,7 @@ Verfication 1 : Récupération des données SNMP
 Verfication 2 : Enregistrement dans un fichier 
 1) vérifier le contenu du fichier avant le lancement du script
 2) Lancer le script
-3) Vérifier qu'une ligne à bien été ajouter à la fin sans écraser les autres lignes déjà existante.
+3) Vérifier qu'une ligne à bien été ajoutée à la fin sans écraser les autres lignes déjà existantes.
   
 Verfication 3 : Conrôle de l'horodatage  
 1) Lancer le script et regarde la colonne lié à la date  
@@ -90,9 +87,9 @@ Version du script : rebouclage
 ### Question 21 : Utilisation de Cron 
 Dans cette partie nous allons mettre en place Cron pour executer notre script toutes les minutes. 
 
-Dans un premier temps nous avons déplacé notre script snmp-4.sh dans le dossier : /usr/local/bin/  
+Dans un premier temps nous avons déplacer notre script snmp-4.sh dans le dossier : /usr/local/bin/  
 Dans un second temps nous avons créé un fichier ```monitoring.log``` pour stocker nos log dans le dossier : /var/log/snmp/  
-Puis nous avons crée un cron à l'aide de la commande suivante :
+Puis nous avons créer un cron à l'aide de la commande suivante :
 ```
 crontab -e
 ```  
