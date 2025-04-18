@@ -57,47 +57,49 @@ Nous pouvons voir sur cette capture que notre grafana nous remonte bien un débi
 ## Classement débit / VRRP
 Pour cette partie, nous pouvons voir le classements des débits et certaines données des VRRP sur le Dashboard à l'adresse suivante : http://192.168.141.185:443/dashboards 
 
-## Synthèse technique de Prometheus et des outils liés
+## **Synthèse technique approfondie : Prometheus et son écosystème de supervision**
 
-### Introduction
-Prometheus est un système de surveillance open source initialement développé par SoundCloud. Il est conçu pour collecter des métriques à partir de cibles configurées à des intervalles réguliers, stocker ces données efficacement, et fournir des outils de visualisation et d'alerte. Il repose sur un modèle de collecte *pull*, une base de données temporelle interne (TSDB) et un langage de requête puissant appelé PromQL. Dans un contexte d'ingénierie réseau et système, Prometheus permet une supervision fine des équipements, notamment via des exports SNMP.
+### **Introduction**
+Prometheus est une solution open source de surveillance et de métriques initialement conçue par SoundCloud. Il repose sur un modèle de collecte en mode *pull*, ce qui signifie qu'il interroge périodiquement les cibles surveillées afin de récupérer leurs métriques. Ces données sont stockées dans une base de données temporelle interne (TSDB) et peuvent être interrogées à l'aide du langage PromQL. Dans les environnements réseaux et systèmes, Prometheus s'avère extrêmement utile pour collecter et visualiser les performances d'équipements grâce, entre autres, à l'exploitation du protocole SNMP.
 
-### Architecture et fonctionnement de Prometheus
-L'architecture de Prometheus repose sur plusieurs composants :
-- **Prometheus Server** : le cœur du système, responsable de la collecte, du stockage des séries temporelles et de l'exécution des requêtes PromQL.
-- **Exporters** : agents ou services exposant des métriques dans un format que Prometheus peut collecter. Pour le SNMP, on utilise `snmp_exporter`.
-- **Alertmanager** : outil complémentaire à Prometheus permettant la gestion et la distribution des alertes (emails, Slack, webhook, etc.).
-- **Service Discovery** : méthode permettant à Prometheus de découvrir automatiquement les cibles à superviser (DNS, fichiers statiques, etc.).
-- **Grafana** : outil de visualisation puissant permettant de créer des dashboards dynamiques en interrogeant Prometheus via PromQL.
+### **Architecture et composants**
+L'architecture de Prometheus repose sur plusieurs briques fondamentales :
 
-### Mise en place dans un environnement supervisé
-Pour superviser un réseau comprenant des routeurs, les étapes techniques mises en œuvre sont les suivantes :
+1. **Prometheus Server** : C'est le noyau central. Il se charge de la collecte des métriques, de leur stockage en séries temporelles, et de l'exécution des requêtes PromQL.
 
-#### 1. Déploiement de Prometheus et Grafana via Docker Compose
-Les services Prometheus et Grafana ont été définis dans un fichier `docker-compose.yml`. Les volumes permettent de persister les données et les fichiers de configuration, notamment :
-- `prometheus.yml` : fichier principal de configuration listant les *targets* SNMP à superviser.
-- Volumes Docker pour la persistance des données Prometheus et Grafana.
+2. **Exporters** : Ce sont des composants qui exposent les métriques dans un format compatible Prometheus. Par exemple, `node_exporter` pour les machines Linux ou `snmp_exporter` pour les équipements réseau.
 
-#### 2. Intégration du SNMP Exporter
-Le `snmp_exporter` est configuré avec un fichier `snmp.yml` décrivant les OID à interroger, comme :
-- `ifInOctets` et `ifOutOctets` (trafic entrant/sortant)
-- `sysUpTimeInstance` (durée depuis le dernier redémarrage)
+3. **Alertmanager** : Cet outil complémentaire permet de déclencher des alertes à partir de règles définies dans Prometheus. Il prend en charge la notification via e-mail, Slack, webhook, etc.
 
-Ces informations sont récupérées sur les routeurs via SNMPv2c en utilisant la communauté `public`. 
+4. **Service Discovery** : Mécanisme qui permet à Prometheus de découvrir dynamiquement les cibles à superviser, via des fichiers statiques, DNS ou autres.
 
-#### 3. Création des dashboards dans Grafana
-À partir des métriques exposées par `snmp_exporter`, plusieurs panels Grafana ont été configurés :
-- Débit par interface réseau (calculé à partir des deltas `ifInOctets` / `ifOutOctets`)
-- Noms des interfaces avec le trafic le plus élevé sur la dernière heure
-- Statut VRRP actif/passif, via OID spécifiques à VRRP
-- Affichage du `sysUptime` en jours/heures
+5. **Grafana** : Outil de visualisation qui permet de construire des tableaux de bord dynamiques, en interrogeant Prometheus via PromQL.
 
-#### 4. Évaluation et validation
-Des tests ont été menés pour valider la bonne récupération des données SNMP, leur affichage en temps réel sur Grafana et la persistance des métriques dans Prometheus. Des scripts de test ont été rédigés pour simuler le trafic réseau et observer l’évolution des graphiques.
+### **Mise en place dans un contexte réseau supervisé**
 
-### Conclusion
-L’intégration de Prometheus avec Grafana, combinée au `snmp_exporter`, fournit une solution robuste, modulaire et extensible pour la supervision réseau. Elle permet de visualiser en temps réel les performances des routeurs, détecter les anomalies, suivre les pannes, et exploiter efficacement les données SNMP. Ce système offre une base solide pour une surveillance proactive et automatisée d’une infrastructure réseau.
+#### 1. **Déploiement via Docker Compose**
+Prometheus, Grafana, et les exporters (comme snmp_exporter) sont déployés sous forme de conteneurs Docker. Le fichier `docker-compose.yml` décrit les services, les volumes pour la persistance des données et les ports exposés.
 
+#### 2. **Configuration de Prometheus**
+Le fichier `prometheus.yml` décrit les cibles à interroger via SNMP, avec des paramètres tels que les adresses IP des routeurs, la communauté SNMP, et les modules définis dans `snmp.yml`.
+
+#### 3. **Utilisation du snmp_exporter**
+Ce composant interroge les équipements réseau grâce au protocole SNMP. Le fichier `snmp.yml` contient la définition des OID à surveiller. Parmi les plus courants :
+   - `ifInOctets`, `ifOutOctets` : pour surveiller le trafic entrant et sortant par interface
+   - `sysUpTimeInstance` : pour connaître la durée de fonctionnement depuis le dernier redémarrage
+
+#### 4. **Dashboards Grafana**
+Des panels Grafana sont créés pour interpréter visuellement les métriques :
+   - Surveillance du trafic réseau par interface (grâce aux taux de variation des octets)
+   - Détection des interfaces les plus sollicitées
+   - Affichage de l'état VRRP (actif ou passif) à l'aide des OID spécifiques
+   - Suivi du `sysUpTime` pour vérifier les redémarrages intempestifs
+
+#### 5. **Validation et tests**
+Des tests fonctionnels sont réalisés afin de s'assurer que les métriques sont correctement collectées, stockées et affichées. Des scripts de génération de trafic permettent de simuler une activité réseau et d'observer la réactivité de l'ensemble de la chaîne de supervision.
+
+### **Conclusion**
+La combinaison de Prometheus, Grafana et snmp_exporter constitue une solution efficace, robuste et flexible pour la supervision d'infrastructures réseaux. Elle offre une vision en temps réel de l'état des équipements, permet une détection précoce des anomalies, et aide à maintenir un haut niveau de disponibilité des services. Cette architecture est parfaitement adaptée à des besoins de supervision automatisée et proactive dans des environnements professionnels ou académiques.
   
 #### _Validation IX_
 
@@ -125,4 +127,14 @@ Voici la procédure qui permet de vérifier que le serveur web fonctionne.
 - Créer un dashboard simple avec up{job="web_server"} dans Grafana et le dashboard affiche bien des données.
 
 
+ # Mise en place de Netflow 
+ Pour des raisons de temps et parce que j’ai été seule à réaliser l’ensemble de la partie projet, je n’ai pas pu finaliser l’intégration de NetFlow dans mon infrastructure. Toutefois, j’ai mené des recherches approfondies sur sa mise en place. Les grandes étapes identifiées sont les suivantes :
+1.    Activation de NetFlow sur les interfaces des deux routeurs que l’on souhaite superviser.
 
+2.    Configuration de l’export des flux NetFlow vers un collecteur (adresse IP du serveur et port UDP, généralement 2055).
+
+3.    Déploiement d’un collecteur NetFlow sur la machine B, via Docker ou une installation classique.
+
+4.    Intégration et visualisation des données collectées sur Grafana, à travers des tableaux de bord dédiés.
+
+5.    Vérification du bon fonctionnement de l’ensemble de la chaîne, accompagnée de tests de validation et de la création de dashboards affichant les statistiques de trafic réseau.
