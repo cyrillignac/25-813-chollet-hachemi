@@ -1,6 +1,6 @@
 HACHEMI Jules | CHOLLET Emeline 
 
-**#TP - Mini projet Supervision ETRS813**
+# **TP - Mini projet Supervision ETRS813**
 
 # 25-813-chollet-hachemi
 
