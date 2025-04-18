@@ -1,5 +1,11 @@
-# Configuration de SNMPv3 dans les routeurs 
-
+# Partie II : Supervision et métrologie avec SNMP
+## 1. Configuration de SNMPv3 dans les routeurs 
+Nous allons mettre en place un agent SNMPv2 sur nos deux routeurs. On utilisera une authentification SHA avec comme mot de passe auth_pass pour l'utilisateur snmpuser.    
+Pour la confidentialité, l’algorithme utilisé sera aes 128 bits avec comme mot de passe crypt_pass. Les machines A et B seront utilisées comme client SNMP.  
+Nous avons mis comme valeur pour sylocation :  Data Center - Salle 121  
+Et pour syscontact : Admin <emeline.chollet@etu.univ-smb.fr>  
+Nous avons mis en place le protocole SNMPv3 sur nos routeurs.  
+Nous pouvons voir ci-dessous les informations de snmp user :  
 ```bash
 813-R2(config)#do show snmp user
 
@@ -30,17 +36,17 @@ notifyview: *tv.FFFFFFFF.FFFFFFFF.FFFFFFFF.F
 row status: active
 ```
 
-## Question 8 :
+### Question 8 :
 La commande qui nous permet de récupèrer l'objet syslocation est la suivante.
 Sur le Client : 
 ```bash
 [etudiant@G3-813-B ~]$ snmpget -v3 -u snmpuser -l authPriv -a SHA -A auth_pass -x AES -X crypt_pass 10.100.3.254 SNMPv2-MIB::sysLocation.0
 SNMPv2-MIB::sysLocation.0 = STRING: Data Center - Salle 121
 ```
+### Validation III
 
-
-# Configuration de SNMPv2 dans les routeurs 
-Dans cette partie nous allons mettre en place SNPv2 dans les routeurs.
+## 2. Configuration de SNMPv2 dans les routeurs 
+Dans cette partie nous allons mettre en place SNMPv2 dans les routeurs.
 Voici ci-dessous la configuration snmp que nous avons mis en place sur les routeurs ainsi que sur les machines internes.
 ```
 813-R2#show running-config | include snmp
@@ -52,10 +58,10 @@ Sur le Client :
 [etudiant@G3-813-B ~]$ snmpget -v2c -c 123test123 10.100.3.254 SNMPv2-MIB::sysLocation.0
 SNMPv2-MIB::sysLocation.0 = STRING: Data Center - Salle 121
 ```
-## Question 9 
+### Question 9 
 SNMP est encoder grâce au mécanisme BER(Basic Encoding Rules).
 
-## Question 10 : 
+### Question 10 : 
 Nous avons faire une capture du SNMP-GET sur la deuxième interface du routeur R2.
 Capture du SNMP-GET : avec l'option -x pour avoir sous la forme d'une suite d'octet 
 snmpwalk -v 2c -c 123test123 10.250.0.6 1.3.6.1.2.1.2.2.1.4.2
@@ -99,10 +105,10 @@ Nous pouvons mettre en forme ces 4 trames de la même manière que vue en cours 
 
 | En-tête IP | En-tête UDP | Version | Communauté | PDU | Identificateur de requête | Status d'erreur | Index d'erreur | Nom | Valeur |
 |------------|-------------|---------|------------|-----|----------------------------|-----------------|----------------|-----|--------|
-| 0a 64 03 02 0a fa 00 06 (Source IP: 10.100.3.2, Destination IP: 10.250.0.6) | a5 d9 00 a1 00 39 18 b0 (Source Port: 42457, Destination Port: 161, Length: 57) | 02 01 01 (SNMP Version 2c) | 0a 31 32 33 74 65 73 74 31 32 33 (Community: 123test123) | a1 1e (Get-Next Request) | 02 04 50 a2 8e 4c (Request ID: 135792468) | 02 01 00 (Error Status: No Error) | 02 01 00 (Error Index: 0) | 30 10 30 0e 06 0a 2b 06 01 02 01 02 02 01 04 02 (OID: 1.3.6.1.2.1.2.2.1.4.2) | 05 00 (Value: Null) |
-| 0a fa 00 06 0a 64 03 02 (Source IP: 10.250.0.6, Destination IP: 10.100.3.2) | 00 a1 a5 d9 00 3b 55 ca (Source Port: 161, Destination Port: 42457, Length: 59) | 02 01 01 (SNMP Version 2c) | 0a 31 32 33 74 65 73 74 31 32 33 (Community: 123test123) | a2 20 (Get-Response) | 02 04 50 a2 8e 4c (Request ID: 135792468) | 02 01 00 (Error Status: No Error) | 02 01 00 (Error Index: 0) | 30 12 30 10 06 0a 2b 06 01 02 01 02 02 01 04 03 (OID: 1.3.6.1.2.1.2.2.1.4.3) | 02 05 dc (Value: 1500) |
-| 0a 64 03 02 0a fa 00 06 (Source IP: 10.100.3.2, Destination IP: 10.250.0.6) | a5 d9 00 a1 00 39 18 b0 (Source Port: 42457, Destination Port: 161, Length: 57) | 02 01 01 (SNMP Version 2c) | 0a 31 32 33 74 65 73 74 31 32 33 (Community: 123test123) | a0 1e (Get-Request) | 02 04 50 a2 8e 4d (Request ID: 135792469) | 02 01 00 (Error Status: No Error) | 02 01 00 (Error Index: 0) | 30 10 30 0e 06 0a 2b 06 01 02 01 02 02 01 04 02 (OID: 1.3.6.1.2.1.2.2.1.4.2) | 05 00 (Value: Null) |
-| 0a fa 00 06 0a 64 03 02 (Source IP: 10.250.0.6, Destination IP: 10.100.3.2) | 00 a1 a5 d9 00 3b 55 ca (Source Port: 161, Destination Port: 42457, Length: 59) | 02 01 01 (SNMP Version 2c) | 0a 31 32 33 74 65 73 74 31 32 33 (Community: 123test123) | a2 20 (Get-Response) | 02 04 50 a2 8e 4d (Request ID: 135792469) | 02 01 00 (Error Status: No Error) | 02 01 00 (Error Index: 0) | 30 12 30 10 06 0a 2b 06 01 02 01 02 02 01 04 02 (OID: 1.3.6.1.2.1.2.2.1.4.2) | 02 05 dc (Value: 1500) |
+| 0a 64 03 02 0a fa 00 06 (Source IP: 10.100.3.2, Destination IP: 10.250.0.6) | a5 d9 00 a1 00 39 18 b0 (Source Port: 42457, Destination Port: 161, Length: 57) | 02 01 01 (SNMP Version 2c) | 0a 31 32 33 74 65 73 74 31 32 33 (Community: 123test123) | a1 1e (Get-Next Request) | 02 04 50 a2 8e 4c (Request ID: 135792468) | 02 01 00 (Error Status: No Error) | 00 (Error Index: 0) | 0a 2b 06 01 02 01 02 02 01 04 02 (Nombre de chiffre (0a), OID: 1.3.6.1.2.1.2.2.1.4.2) | 05 00 (Value: Null) |
+| 0a fa 00 06 0a 64 03 02 (Source IP: 10.250.0.6, Destination IP: 10.100.3.2) | 00 a1 a5 d9 00 3b 55 ca (Source Port: 161, Destination Port: 42457, Length: 59) | 02 01 01 (SNMP Version 2c) | 0a 31 32 33 74 65 73 74 31 32 33 (Community: 123test123) | a2 20 (Get-Response) | 02 04 50 a2 8e 4c (Request ID: 135792468) | 02 01 00 (Error Status: No Error) | 00 (Error Index: 0) | 0a 2b 06 01 02 01 02 02 01 04 03 (OID: 1.3.6.1.2.1.2.2.1.4.3) | 02 05 dc (Value: 1500) |
+| 0a 64 03 02 0a fa 00 06 (Source IP: 10.100.3.2, Destination IP: 10.250.0.6) | a5 d9 00 a1 00 39 18 b0 (Source Port: 42457, Destination Port: 161, Length: 57) | 02 01 01 (SNMP Version 2c) | 0a 31 32 33 74 65 73 74 31 32 33 (Community: 123test123) | a0 1e (Get-Request) | 02 04 50 a2 8e 4d (Request ID: 135792469) | 02 01 00 (Error Status: No Error) | 00 (Error Index: 0) | 0a 2b 06 01 02 01 02 02 01 04 02 (OID: 1.3.6.1.2.1.2.2.1.4.2) | 05 00 (Value: Null) |
+| 0a fa 00 06 0a 64 03 02 (Source IP: 10.250.0.6, Destination IP: 10.100.3.2) | 00 a1 a5 d9 00 3b 55 ca (Source Port: 161, Destination Port: 42457, Length: 59) | 02 01 01 (SNMP Version 2c) | 0a 31 32 33 74 65 73 74 31 32 33 (Community: 123test123) | a2 20 (Get-Response) | 02 04 50 a2 8e 4d (Request ID: 135792469) | 02 01 00 (Error Status: No Error) | 00 (Error Index: 0) | 0a 2b 06 01 02 01 02 02 01 04 02 (OID: 1.3.6.1.2.1.2.2.1.4.2) | 02 05 dc (Value: 1500) |
 
 Nous pouvons voir que la trame correspond bien à la théorie vue en cours.
 ```bash
@@ -118,15 +124,15 @@ Capturing on 'enp0s8'
 
 On s’intéresse ici à l’affichage des informations SNMP correspondant au fonctionnement de VRRP.
 
-## Question 11 : 
+### Question 11 : 
 La ligne du fichier de la MIB VRRP qui indique l'OID relatif de la branche VRRP par rapport à mib-2 est :
 ```bash
 vrrpMIB OBJECT IDENTIFIER ::= { mib-2 68 }
 ```
-## Question 12 : 
-La commande _snmpwalk -v2c -c 123test123 10.100.3.254 vrrpMIB_ échoue car  l'objet vrrpMIB que nous tentons d'interroger via SNMP n'est pas trouvé dans la base de données MIB du périphérique cible (ici 10.100.3.254 : l'interface interne du routeur).
+### Question 12 : 
+La commande ```_snmpwalk -v2c -c 123test123 10.100.3.254 vrrpMIB_ ```échoue car  l'objet vrrpMIB que nous tentons d'interroger via SNMP n'est pas trouvé dans la base de données MIB du périphérique cible (ici 10.100.3.254 : l'interface interne du routeur).
 
-## Question 13 : 
+### Question 13 : 
 On s'intéresse ici à la table vrrpOperTable. 
 Nous pouvons voir ci-dessous la vrrpOperTable de R2 avec les explications des 8 premières lignes. 
 ```bash
@@ -146,18 +152,17 @@ SNMPv2-SMI::mib-2.68.1.3.1.13.2.1 = Timeticks: (0) 0:00:00.00
 SNMPv2-SMI::mib-2.68.1.3.1.14.2.1 = INTEGER: 1
 SNMPv2-SMI::mib-2.68.1.3.1.15.2.1 = INTEGER: 1
 ```
+### Validation IV  
+## 3. Métrologie
+On s'intéresse dans cette partie aux possibilités offertes par SNMP pour faire de la métrologie. On se focalisera sur la mesure du débit et notamment sur la précision de cette mesure.
 
-# Métrologie
-On s'intéresse dans cette partie aux possibilités offertes par SNMP pour faire de la métrologie. On se
-focalisera sur la mesure du débit et notamment sur la précision de cette mesure.
-
-## Question 14 : 
+### Question 14 : 
 Après avoir mis en place iperf sur nos deux machines Linux A et B. 
 Sur B nous avons lancé la commande ``` iperf3 -s``` en mode serveur 
 Sur A nous avons lancé la commande ``` iperf3 -C 10.100.3.2``` en mode client
 Nous pouvons voir que Iperf utilise par défaut TCP mais peut être utilisé avec UDP (avec l'option -u). Le temps de test est de 10 secondes par défaut, mais il peut être modifié (avec l'option -t).
 
-## Question 15 : 
+### Question 15 : 
 Les différences de mesures trouvées entre l'utilisation de l'outil Iperf et Capinfos peuvent provenir de la manière de traiter la donnée (la prise en compte des entêtes udp ou non), de la manière de capturer les trames et de les traiter (les traiter au fur et à mesure ou après la capture), ou bien encore la prise en compte des retransmissions quand certains paquets échouent. 
   
 Voici ci-dessous un Iperf lancé vers la machine B sur la machine A :  
@@ -227,7 +232,7 @@ Interface #0 info:
 
 L'objectif de cette partie est de vérifier que les compteurs d'octets associés aux interfaces permettent d'avoir une vision précise du nombre de bits entrant/sortant d'une machine. Ces compteurs d'octets accessibles en SNMP permettront donc de calculer les débits entrant/sortant d'une machine.
   
-## Question 16 :
+### Question 16 :
 
 Il est préferable d'utiliser les compteurs d'octets en version 32bits si notre débit sur nos interfaces est inférieur à 10 Mbits/s et si notre équipement ne support pas le SNMPv2c ou SNMPv3
 
@@ -243,7 +248,7 @@ ifHCInOctets et ifHCOutOctets (64 bits) :
 - ifHCInOctets (OID : .1.3.6.1.2.1.31.1.1.1.6) : Compteur d'octets entrants (64 bits, High Capacity).
 - ifHCOutOctets (OID : .1.3.6.1.2.1.31.1.1.1.10) : Compteur d'octets sortants (64 bits, High Capacity).
 
-## Question 17 :
+### Question 17 :
 Nous allons nous intéresser au débit sortant du réseau. Voici ci-dessous une manipulation simple permmettant de trouver le débit sortant dans notre réseau.
 
 La machine B (ancienne IP : 10.100.3.2) est actuellement sur le VLAN 140 et a pour IP : 192.168.141.35
