@@ -255,7 +255,7 @@ La machine B (ancienne IP : 10.100.3.2) est actuellement sur le VLAN 140 et a po
 Sur B, lancer la commande ``` ipfer3 -s ``` pour mettre la machine en mode écoute.     
 Sur A, lancer la commande ``` iperf3 -C 192.168.141.35 -t 30 -b 1M ```. Ici l'option ```-t``` permet de générer un flux pendant 30 secondes.  
   
-Sur A, lancer le script ci-dessous ("[script_q17_debit_sortant.sh]("https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/script_q17_debit_sortant.sh")"), qui mesure le débit sortant.  
+Sur A, lancer le script ci-dessous ("[script_q17_debit_sortant.sh](https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/script_q17_debit_sortant.sh)"), qui mesure le débit sortant.  
 
 ```bash
 M1=$(snmpget -v2c -c 123test123 -Oqv 10.100.3.254 1.3.6.1.2.1.2.2.1.16.3) # Mesure du nombre d'octets envoyés
