@@ -1,19 +1,24 @@
 # Partie IV : Projet Prometheus / Grafana / Netflow / Logs   
   
 ## Prometheus  
-Prometheus se distingue comme l’un des outils les plus puissants et polyvalents pour la collecte et d’analyse de données en temps réel. Initialement développé par SoundCloud en 2012, il est depuis devenu l’un des outils de monitoring les plus populaires dans la communauté des développeurs.  
+Prometheus se distingue comme l’un des outils les plus puissants et polyvalents pour la collecte et l’analyse de données en temps réel.
+Initialement développé par SoundCloud en 2012, il est depuis devenu l’un des outils de monitoring les plus populaires dans la communauté des développeurs.
+
 Prometheus : Un Outil de Monitoring Puissant et Polyvalent
-Prometheus est un système open-source de monitoring et d’alerte conçu à l’origine par SoundCloud en 2012 et désormais maintenu par la Cloud Native Computing Foundation (CNCF).   
-Il est particulièrement adapté au suivi des applications cloud-native et des infrastructures dynamiques.   
+Prometheus est un système open source de monitoring et d’alerte conçu à l’origine par SoundCloud en 2012 et désormais maintenu par la Cloud Native Computing Foundation (CNCF).
+Il est particulièrement adapté au suivi des applications cloud-native et des infrastructures dynamiques.
 Prometheus est devenu un standard dans le monitoring des architectures modernes, notamment en association avec Kubernetes.
 
-## Grafana 
-Grafana est un outil open source de visualisation et d’analyse de données, très utilisé dans les environnements de supervision et de monitoring. Il permet de créer des tableaux de bord interactifs à partir de nombreuses sources de données comme Prometheus, InfluxDB, Elasticsearch, ou encore des bases SQL. L’un de ses points forts est sa capacité à afficher les métriques sous forme de graphiques, de jauges ou de tableaux en temps réel.  
+## Grafana
+Grafana est un outil open source de visualisation et d’analyse de données, très utilisé dans les environnements de supervision et de monitoring.
+Il permet de créer des tableaux de bord interactifs à partir de nombreuses sources de données comme Prometheus, InfluxDB, Elasticsearch, ou encore des bases SQL.
+L’un de ses points forts est sa capacité à afficher les métriques sous forme de graphiques, de jauges ou de tableaux en temps réel.
 
-Grâce à son interface web intuitive, Grafana facilite la surveillance des performances systèmes, réseaux ou applicatives. Il offre également des fonctionnalités d’alerting, permettant de définir des seuils et d’envoyer des notifications en cas de dépassement. Sa personnalisation avancée et sa gestion fine des utilisateurs en font un choix populaire pour les équipes DevOps, réseau ou sécurité.  
+Grâce à son interface web intuitive, Grafana facilite la surveillance des performances systèmes, réseaux ou applicatives.
+Il offre également des fonctionnalités d’alerting, permettant de définir des seuils et d’envoyer des notifications en cas de dépassement.
+Sa personnalisation avancée et sa gestion fine des utilisateurs en font un choix populaire pour les équipes DevOps, réseau ou sécurité.
 
-En résumé, Grafana est un outil puissant, flexible et esthétique, idéal pour transformer des données brutes en tableaux de bord clairs et exploitables.  
-
+En résumé, Grafana est un outil puissant, flexible et esthétique, idéal pour transformer des données brutes en tableaux de bord clairs et exploitables.
 #  
 L'arborescence final des fichiers de configuration de Prometheus et de Grafana sur la machine B est la suitante :~/prometheus    
 .  
@@ -32,8 +37,8 @@ Pour voir l'interface de prometheus nous pouvons se rendre à l'adresse http://1
 
 
 ## Test mis en place 
-A l'aide d'iperf, nous allons réaliser des tests qui permerteront de vérifier le bon fonctionnement de la récupération de données via SNMP.  
-Nous allons mettre la machine A en mode serveur : ```iperf3 -s````, puis sur la machine B nous lançons le script suivant :   
+À l'aide d'iPerf, nous allons réaliser des tests qui permettront de vérifier le bon fonctionnement de la récupération de données via SNMP.
+Nous allons mettre la machine A en mode serveur : ```iperf3 -s```, puis sur la machine B, nous lançons le script suivant :  
 ```bash 
 #!/bin/bash
 
