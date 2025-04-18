@@ -1,3 +1,4 @@
+# Script bash de mesure de débit en SNMP
 Durant cette partie nous allons devoir développer un script Bash qui permet de mesurer les débits des flux entrant ou sortant d’un équipement. 
 Par exemple, notre script doit permettre de connaître le débit sortant d'une interface d'un routeur, avec un relevé effectué toutes les minutes sur une très longue période.
 Les mesures de débit sont stokées dans un fichier.
@@ -5,13 +6,13 @@ Les mesures de débit sont stokées dans un fichier.
 On fixe comme prériodicité minimale de la mesure 1 minutes et comme périodicité maximale 30 mintutes.
 Nous allons écrire un script sur la machine linux.
 
-## Question 18 : 
+### Question 18 : 
 La fonction sleep est un processus qui reste en cours d'exécution en arrière-plan. Si le processus est tué ou si le système redémarre, le script ne redémarrera pas automatiquement, contrairement à cron ou systemd
 Le processus sleep reste actif même si il n'est pas utilisé, cela consomme de la mémoire et du CPU. Contrairement au job cron ou un timer systemd, ne lance le script que lorsqu'il est nécessaire.
 
 Nous allons donc utilisé cron ou les timers systemd dans notre à la place du processus sleep
 
-## 
+## 1. Récupération du compteur d'octets
 
 Première version du script : 
 <a href="https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/snmp-1.sh"> script-snmp-1  
@@ -38,10 +39,16 @@ Résultat de la commande : cat throughput_int1.txt
 1742291020;24663062;341
 ```
 
+## 2. Gestion de la date et enregistrement des résultats dans un fichier
+L’option de la commande date qui permet d’afficher la date au format nombre de secondes écoulées depuis 01/01/1970 est la suivante :  
+```date +%s``` dans la commande ```date +%s```  
+
 >> "$filename" → Ajoute la ligne à la fin du fichier sans l’écraser.
 Format de stockage : timestamp valeur_octets (exemple : 1710212345;34499394).
 
-## Question 19 : procédure de tests
+## 3. Lecture de la dernière ligne du fichier, calcul et enregistrement du débit
+
+### Question 19 : procédure de tests
 Voici une procedure de vérification pour s'assurer que notre code fonctionne correctement.
 
 Verfication 1 : Récupération des données SNMP  
@@ -58,15 +65,15 @@ Verfication 3 : Conrôle de l'horodatage
 1) Lancer le script et regarde la colonne lié à la date  
 2) Lancer la commande ``` date+%s```  
 3) Comparer les deux valeurs, elles doivent être presque identique à quelque seconde près.
-  
-## 
+
+### Validation VI
+
+## 4. Gestion du fichier vide et gestion du rebouclage du compteur d’octets.
 Dans cette partie nous allons améloirer notre script, ce dernier devra gérer la première exécution (aucune donnée dans le ficiher).  
 
 Version 3 du script : gestion des erreurs et du premier lancement :  <a href="https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/snmp-3.sh"> Script-snmp3
 
-
-
-## Question 20 : 
+### Question 20 : 
 
 Le problème posé par le bouclage du compteur est l'obtention lors de deux mesures successives de valeurs moins elevées au fil du temps, ce qui n'est pas logique et qui donnerait un débit négatif. Afin de corriger ce problème, on peut intégrer cette "équation" : 
 ```
@@ -78,7 +85,9 @@ Afin d'obtenir une deuxième valeur précise, on va soustraire à la valeur maxi
 Version du script : rebouclage    
 <a href="https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/snmp-4.sh"> script-snmp-4-rebouclage
 
-## Question 21 : Utilisation de Cron 
+## 5. Utilisation du cron pour que le script s’exécute toutes les minutes
+
+### Question 21 : Utilisation de Cron 
 Dans cette partie nous allons mettre en place Cron pour executer notre script toutes les minutes. 
 
 Dans un premier temps nous avons déplacé notre script snmp-4.sh dans le dossier : /usr/local/bin/  
@@ -107,7 +116,10 @@ Tous ces opérations ont été faites en sudo.
 Je rappelle l'adresse IP de la machine hébergeant les scripts est : 192.168.141.185 ou 172.29.253.25/24 sur le serv21   
 Avec comme mot de passe : password.  
 
-## Question 22 : Script Générique 
+### Validation VII
+
+## 6. Script générique 
+### Question 22 : Script Générique 
 Version du script : Générique    
 <a href="https://github.com/cyrillignac/25-813-chollet-hachemi/blob/main/snmp_generic.sh"> script-snmp_generic  
 
